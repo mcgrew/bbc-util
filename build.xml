@@ -1,0 +1,103 @@
+
+<project name="bbc-util" basedir="." default="default">
+	<property name="author"     value="Thomas McGrew"                      />
+	<property name="vendor"     value="Purdue University"                  />
+	<property name="version"    value="0.9"                                />
+	<property name="pkg_base"   value="edu.purdue.bbc"                     />
+	<property name="jar_dir"    value="."                                  />
+	<property name="src_dir"    value="src"                                />
+	<property name="build_dir"  value="build"                              />
+	<property name="lib_dir"    value="lib"                                />
+	<property name="class_dir"  value="${build_dir}/class"                 />
+	<property name="jar_file"   value="${jar_dir}/${ant.project.name}.jar" />
+
+	<path id="build_classpath">
+		<fileset dir="${lib_dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<manifestclasspath property="manifest_classpath" jarfile="${jar_file}">
+		<classpath refid="build_classpath" />
+	</manifestclasspath>
+
+	<!-- ============ TARGET: CLEAN ==================== -->
+	<target name="clean">
+		<delete dir="${build_dir}"/>
+		<delete file="${jar_file}"/>
+	</target>
+
+	<!-- ============ TARGET: COMPILE ================== -->
+	<target name="compile">
+		<mkdir dir="${class_dir}"/>
+		<javac srcdir="${src_dir}" target="1.5" destdir="${class_dir}" debug="on" 
+			debuglevel="lines,vars,source" deprecation="true" 
+			includeantruntime="false">
+			<classpath>
+				<path refid="build_classpath"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<!-- ============ TARGET: JAR ====================== -->
+	<target name="jar" depends="clean,compile">
+		<mkdir dir="${jar_dir}"/>
+		<jar destfile="${jar_file}" basedir="${class_dir}">
+			<manifest>
+				<attribute name="Manifest-Version" value="1.0"                  />
+				<attribute name="Created-By"       value="${author}"            />
+				<attribute name="Version"          value="${version}"           />
+				<attribute name="Vendor"           value="${vendor}"            />
+				<attribute name="Class-Path"       value="${manifest_classpath}"/> 
+			</manifest>
+		</jar>
+	</target>
+
+	<!-- ============ TARGET: DIST ==================== -->
+	<target name="dist" depends="clean,compile">
+		<unzip dest="${class_dir}">
+			<path refid="build_classpath"/>
+		</unzip>
+		<mkdir dir="${jar_dir}"/>
+		<jar destfile="${jar_file}" basedir="${class_dir}">
+			<manifest>
+				<attribute name="Manifest-Version" value="1.0"                  />
+				<attribute name="Created-By"       value="${author}"            />
+				<attribute name="Version"          value="${version}"           />
+				<attribute name="Vendor"           value="${vendor}"            />
+			</manifest>
+		</jar>
+	</target>
+
+
+	<!-- ============ TARGET: DOCS ===================== -->
+	<target name="docs">
+		<delete dir="docs/api"/>
+		<javadoc
+           destdir="docs/api"
+           author="true"
+           version="true"
+           use="true"
+           windowtitle="${ant.project.name} API">
+			
+			<fileset dir="src" defaultexcludes="yes">
+				<include name="**/*.java"/>
+	    </fileset>
+			<classpath>
+				<path refid="build_classpath"/>
+			</classpath>
+			<doctitle><![CDATA[<h1>${ant.project.name}</h1>]]></doctitle>
+			<bottom><![CDATA[<i>Copyright &#169; 2010 ${vendor}. All Rights Reserved.</i>]]></bottom>
+			<tag name="todo" scope="all" description="To do:"/>
+			<group title="Packages" packages="${pkg_base}.*"/>
+			<link offline="false" href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+			<link href="http://developer.java.sun.com/developer/products/xml/docs/api/"/>
+		</javadoc>
+	</target>
+
+	<!-- ============ TARGET: CLEAN-BUILD ============== -->
+	<target name="clean-build" depends="clean,dist"/>
+	<!-- ============ TARGET: DEFAULT ================== -->
+	<target name="default" depends="clean,dist"/>
+</project>
+
