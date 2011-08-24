@@ -184,6 +184,16 @@ public class CSVTableReader implements Iterator<Map<String,String>> {
 	}
 
 	/**
+	 * Returns the keys being used by this reader. This should contain the headers
+	 * in the first line of the file.
+	 * 
+	 * @return The keys from the file being read.
+	 */
+	public String[] getKeys( ) {
+		return this.keys( );
+	}
+
+	/**
 	 * Determines whether there is another line of values in the file.
 	 * 
 	 * @return True if there is another line of values.

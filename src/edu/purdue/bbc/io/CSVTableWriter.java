@@ -250,6 +250,16 @@ public class CSVTableWriter {
 	}
 
 	/**
+	 * Returns the keys being used by this writer. 
+	 * 
+	 * @return The keys for the file being written.
+	 */
+	public String[] getKeys( ) {
+		return this.keys( );
+	}
+
+
+	/**
 	 * Closes the output.
 	 */
 	public void close( ) throws IOException {
