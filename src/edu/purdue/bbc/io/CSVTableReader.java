@@ -190,7 +190,7 @@ public class CSVTableReader implements Iterator<Map<String,String>> {
 	 * @return The keys from the file being read.
 	 */
 	public String[] getKeys( ) {
-		return this.keys( );
+		return this.keys;
 	}
 
 	/**

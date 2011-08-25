@@ -255,7 +255,7 @@ public class CSVTableWriter {
 	 * @return The keys for the file being written.
 	 */
 	public String[] getKeys( ) {
-		return this.keys( );
+		return this.keys;
 	}
 
 

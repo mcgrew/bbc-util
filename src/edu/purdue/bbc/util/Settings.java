@@ -29,34 +29,82 @@ This file is distributed under the following terms (MIT/X11 License):
 
 package edu.purdue.bbc.util;
 
-import java.awt.Toolkit;
 import java.awt.Dimension;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Locale;
+import java.util.Map;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.filechooser.FileSystemView;
 
 import org.apache.log4j.Logger;
 
 public class Settings extends Properties {
-	private static Settings settings = new Settings( );
+	private static Settings settings;
 	private static Language language;
+	private String settingsFilename;
 
 	public Settings( ) {
+		this((Properties)null, null );
+	}
+
+	public Settings( String settingsFile ) {
+		this( (Properties)null, settingsFile );
+	}
+
+	public Settings( Properties defaultSettings ) {
+		this( defaultSettings, null );
+	}
+
+	public Settings( Map<String,String> defaultSettings ) {
+		this( defaultSettings, null );
+	}
+
+	public Settings( Properties defaultSettings, String settingsFile ) {
 		super( );
 		this.defaults = new DefaultSettings( );
-		this.load( );
+
+		if ( defaultSettings != null ) {
+			Enumeration props = defaultSettings.propertyNames( );
+			while( props.hasMoreElements( )) {
+				String prop = props.nextElement( ).toString( );
+				this.defaults.setProperty( prop, defaultSettings.getProperty( prop ));
+			}
+		}
+		this.settingsFilename = settingsFile;
+		if ( this.settingsFilename != null ) {
+			this.load( );
+		}
+		if ( settings == null ) {
+			settings = this;
+		}
+	}
+
+	public Settings( Map<String,String> defaultSettings, String settingsFile ) {
+		super( );
+		this.defaults = new DefaultSettings( );
+		if ( defaultSettings != null ) {
+			for( Map.Entry<String,String> entry : defaultSettings.entrySet( )) {
+				this.defaults.setProperty( entry.getKey( ), entry.getValue( ));
+			}
+		}
+		this.settingsFilename = settingsFile;
+		if ( this.settingsFilename != null ) {
+			this.load( );
+		}
+		if ( settings == null ) {
+			settings = this;
+		}
 	}
 
 	public Object setProperty( String property, String value ) {
 		Object returnValue = super.setProperty( property, value );
 		if ( "locale".equals( property ))
-			if ( language == null )
+			if ( this.language == null )
 				language = new Language( value );
 			else
 				language.setLocale( value );
@@ -106,15 +154,20 @@ public class Settings extends Properties {
 		setProperty( property, Double.toString( value ));
 	}
 
-	public void save( ) {
+	public boolean save( ) {
+
 		Logger logger = Logger.getLogger( getClass( ));
+		if ( this.settingsFilename == null ) {
+			return false;
+		}
 		try {
 			logger.debug( "Saving settings..." );
-			File settingsFile = new File( this.getProperty( "settingsFile" ));
+			File settingsFile = new File( this.settingsFilename );
 			if( !settingsFile.getParentFile( ).exists( ) && !settingsFile.getParentFile( ).mkdirs( )) {
 				logger.error( String.format(
 				  "Unable to create directory '%s' for saving program settings.",
 					settingsFile.getParent( )));
+				return false;
 			}
 			this.storeToXML( new BufferedOutputStream( 
 				new FileOutputStream( settingsFile )), null );
@@ -122,49 +175,42 @@ public class Settings extends Properties {
 			logger.error( String.format( 
 				"Unable to save program settings. File '%s' is not writeable", 
 				this.getProperty( "settingsFile" )), e );
+			return false;
 		}
+		return true;
 	}
 	
-	public void load( ) {
+	public boolean load( ) {
 		Logger logger = Logger.getLogger( getClass( ));
+		if ( this.settingsFilename == null ) {
+			return false;
+		}
 		try {
 			logger.debug( "Loading settings..." );
 			this.loadFromXML( new BufferedInputStream( 
-				new FileInputStream( new File( this.getProperty( "settingsFile" )))));
+				new FileInputStream( new File( this.settingsFilename ))));
 		} catch ( IOException e ) {
 			logger.debug( String.format(
 			  "Unable to read program settings. File %s is not readable",
 				this.getProperty( "settingsFile" )));
+			return false;
 		}
 		if ( this.getProperty( "locale" ) != null )
 			if ( language != null )
 				language.setLocale( get( "locale" ));
 			else
 				language = new Language( get( "locale" ));
+		return true;
 	}
 	
 	private class DefaultSettings extends Properties {
 
 		public DefaultSettings( ) {
 			super( );
-			this.setProperty( "windowWidth", "1024" );
-			this.setProperty( "windowHeight", "768" );
-			this.setProperty( "homeDir", System.getProperty( "user.home" ));
-			this.setProperty( "settingsFile", this.getProperty( "homeDir" ) + "/.jsysnet/settings.xml" );
-			Dimension desktopSize = Toolkit.getDefaultToolkit( ).getScreenSize( );
-			this.setProperty( "desktopWidth", Integer.toString( desktopSize.width ));
-			this.setProperty( "desktopHeight", Integer.toString( desktopSize.height ));
-			this.setProperty( "windowXPosition", Integer.toString(( desktopSize.width - 1024 ) / 2 ));
-			this.setProperty( "windowYPosition", Integer.toString(( desktopSize.height - 768 ) / 2 ));
-			this.setProperty( "detailWindowWidth", "850" );
-			this.setProperty( "detailWindowHeight", "350" );
-			this.setProperty( "detailWindowXPosition", "100" );
-			this.setProperty( "detailWindowYPosition", "40" );
+			this.setProperty( "home", System.getProperty( "user.home" ));
 			this.setProperty( "debug", "false" );
 			this.setProperty( "verbose", "false" );
 		}
 
 	}
-
-
 }

@@ -115,7 +115,6 @@ public class Language {
 	 * @param locale The locale to use for translations.
 	 */
 	public Language( String locale ) {
-		setLocale( locale );
 		this( locale, "/resources/i18n/" );
 	}
 
