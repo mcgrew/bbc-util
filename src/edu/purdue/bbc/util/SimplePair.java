@@ -65,6 +65,25 @@ public class SimplePair<T> implements Pair<T>, Collection<T> {
 	}
 
 	/**
+	 * Creates a new SimplePair using the first two elements of the passed in 
+	 * Collection.
+	 * 
+	 * @throws IllegalArgumentException if the passed in Collection has less than 
+	 *	two elements.
+	 * @param pair A Collection containing at least 2 elements.
+	 */
+	public SimplePair( Collection<T> pair ) {
+		if ( pair.size( ) >= 2 ) {
+			Iterator<T> iterator = pair.iterator( );
+			this.first = iterator.next( );
+			this.second = iterator.next( );
+		} else {
+			throw new IllegalArgumentException( 
+				"The Collection must contain at least 2 elements to create a new SimplePair" );
+		}
+	}
+
+	/**
 	 * Gets the first item in this pair.
 	 * 
 	 * @return The first of the two items in the pair.
