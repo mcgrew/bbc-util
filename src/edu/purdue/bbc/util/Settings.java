@@ -156,10 +156,10 @@ public class Settings extends Properties {
 	}
 
 	/**
-	 * Gets the initial settings object, usually the first one created by the
+	 * Gets the main settings object, usually the first one created by the
 	 * application.
 	 * 
-	 * @return The default settings object.
+	 * @return The main settings object.
 	 */
 	public static Settings getSettings( ) {
 		return settings;
@@ -230,7 +230,7 @@ public class Settings extends Properties {
 	 * specified if this property is not set.
 	 * 
 	 * @param property The name of the property to retrieve.
-	 * @param devaultValue The default value to return if the property is not set.
+	 * @param defaultValue The default value to return if the property is not set.
 	 * @return An int containing the value of this property.
 	 * @throws NumberFormatException if this property does not contain a valid
 	 *	integer.
@@ -276,7 +276,7 @@ public class Settings extends Properties {
 	/**
 	 * Returns the value of the property.
 	 * 
-	 * @param The name of the property to retrieve.
+	 * @param property The name of the property to retrieve.
 	 * @return The value of the specified property.
 	 */
 	public String get( String property ) {
@@ -293,6 +293,18 @@ public class Settings extends Properties {
 	 */
 	public String get( String property, String defaultValue ) {
 		return this.getProperty( property, defaultValue );
+	}
+
+	/**
+	 * Sets the value of the specified property, returning it's old value (if any).
+	 * 
+	 * @param property The name of the property to be set.
+	 * @param value The new value for the property.
+	 * @return The old value for the property, or null if it was not previously 
+	 *	present.
+	 */
+	public Object set( String property, String value ) {
+		return this.setProperty( property, value );
 	}
 
 	/**

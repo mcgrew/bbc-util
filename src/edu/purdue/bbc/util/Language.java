@@ -75,7 +75,7 @@ import org.apache.log4j.Logger;
  *		&lt;entry key="File"&gt;Archivo&lt;/entry&gt;
  *		&lt;entry key="Help"&gt;Ayuda&lt;/entry&gt;
  *		&lt;entry key="Open"&gt;Abrir&lt;/entry&gt;
- *		&lt;entry key="OK"&gt;Confirmo&lt;/entry&gt;
+ *		&lt;entry key="OK"&gt;Confirmar&lt;/entry&gt;
  *		&lt;entry key="Cancel"&gt;Cancelar&lt;/entry&gt;
  *		&lt;entry key="Save"&gt;Guardar&lt;/entry&gt;
  *	&lt;/properties&gt;

@@ -45,7 +45,7 @@ public class PolarPoint2D extends Point2D.Double {
 	private Point2D origin;
 
 	/**
-	 * Creates a PolarPoint2D using polar notation.
+	 * Creates a PolarPoint2D using polar notation with an origin at (0,0).
 	 * 
 	 * @param r The r coordinate of the point in polar notation.
 	 * @param theta The angle of the point from the origin (in radians).
@@ -60,11 +60,28 @@ public class PolarPoint2D extends Point2D.Double {
 		}
 	}
 
+	/**
+	 * Creates a PolarPoint2D using polar notation with respect to the specified
+	 * origin point.
+	 * 
+	 * @param r The r coordinate of the point in polar notation.
+	 * @param theta The angle of the point from the origin (in radians)
+	 * @param origin The origin point for this PolarPoint2D
+	 */
 	public PolarPoint2D( double r, double theta, Point2D origin ) {
 		this.setOrigin( origin );
 		this.setLocation( r, theta, POLAR );
 	}
 
+	/**
+	 * Creates a PolarPoint2D using polar notation with respect to the specified
+	 * origin point.
+	 * 
+	 * @param r The r coordinate of the point in polar notation.
+	 * @param theta The angle of the point from the origin (in radians)
+	 * @param originX The x coordinate of the origin point for this PolarPoint2D
+	 * @param originY The y coordinate of the origin point for this PolarPoint2D
+	 */
 	public PolarPoint2D( double r, double theta, double originX, double originY ) {
 		this.setOrigin( originX, originY );
 		this.setLocation( r, theta, POLAR );
@@ -148,6 +165,11 @@ public class PolarPoint2D extends Point2D.Double {
 		}
 	}
 
+	/**
+	 * Returns the current origin point of this PolarPoint2D.
+	 * 
+	 * @return The current origin point.
+	 */
 	public Point2D getOrigin( ) {
 		return this.origin;
 	}
@@ -163,6 +185,13 @@ public class PolarPoint2D extends Point2D.Double {
 		this.setLocation( this.x, this.y );
 	}
 
+	/**
+	 * Leaves the point in it's current location, but changes the location of the origin,
+	 * recalculating r and theta.
+	 * 
+	 * @param originX the x coordinate for the new point to be used as the origin.
+	 * @param originY the y coordinage for the new point to be used as the origin.
+	 */
 	public void setOrigin( double originX, double originY ) {
 		this.setOrigin( new Point2D.Double( originX, originY ));
 	}
@@ -229,18 +258,42 @@ public class PolarPoint2D extends Point2D.Double {
 		return this.theta;
 	}
 
+	/**
+	 * Scales the r coordinate for this point, moving the point exactly this
+	 * amount from the origin. For example, passing a value of 2 will move
+	 * The PolarPoint2D such that it is exactly twice as far from the origin
+	 * with the same theta value.
+	 * 
+	 * @param value The amount to scale r by.
+	 */
 	public void scale( double value ) {
 		this.setLocation( this.r * value, this.theta );
 	}
 
+	/**
+	 * Scales the x and y coordinates of this point in relation to the point (0,0).
+	 * 
+	 * @param xValue The amount to scale the x coordinate by.
+	 * @param yValue The amount to scale the y coordinate by.
+	 */
 	public void scale( double xValue, double yValue ) {
 		this.setLocation( this.x * xValue, this.y * yValue );
 	}
 
+	/**
+	 * Scales the x coordinate of this point in relation to the point (0,0).
+	 * 
+	 * @param value The amount to scale the x coordinate by.
+	 */
 	public void scaleX( double value ) {
 		this.setLocation( this.x * value, this.y );
 	}
 
+	/**
+	 * Scales the xycoordinate of this point in relation to the point (0,0).
+	 * 
+	 * @param value The amount to scale the y coordinate by.
+	 */
 	public void scaleY( double value ) {
 		this.setLocation( this.x, this.y * value );
 	}

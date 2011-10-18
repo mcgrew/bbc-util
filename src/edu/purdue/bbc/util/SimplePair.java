@@ -150,6 +150,15 @@ public class SimplePair<T> implements Pair<T>, Collection<T> {
 		return ( this.first.equals( item ) || this.second.equals( item ));
 	}
 
+	/**
+	 * Returns true if this collection contains all of the elements in the 
+	 * specified collection. This will always be false if the passed in
+	 * collection contains more than 2 unique elements.
+	 * 
+	 * @param c The Collection to compare this SimplePair with.
+	 * @return true if this collection contains all of the elements in the 
+	 *	specified collection.
+	 */
 	public boolean containsAll ( Collection <?> c ) {
 		boolean returnValue = true;
 		for ( Object item : c ) {
