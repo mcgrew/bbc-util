@@ -38,7 +38,7 @@ public class MutableNumber extends Number {
 	private Number value;
 
 	/**
-	 * Creates a new instance of MubableNumber with the specified value.
+	 * Creates a new instance of MutableNumber with the specified value.
 	 * 
 	 * @param value The value for this Number.
 	 */
@@ -47,7 +47,7 @@ public class MutableNumber extends Number {
 	}
 
 	/**
-	 * Creates a new instance of MubableNumber with the specified value.
+	 * Creates a new instance of MutableNumber with the specified value.
 	 * 
 	 * @param value The value for this Number.
 	 */
@@ -56,7 +56,7 @@ public class MutableNumber extends Number {
 	}
 
 	/**
-	 * Creates a new instance of MubableNumber with the specified value.
+	 * Creates a new instance of MutableNumber with the specified value.
 	 * 
 	 * @param value The value for this Number.
 	 */
@@ -65,7 +65,7 @@ public class MutableNumber extends Number {
 	}
 
 	/**
-	 * Creates a new instance of MubableNumber with the specified value.
+	 * Creates a new instance of MutableNumber with the specified value.
 	 * 
 	 * @param value The value for this Number.
 	 */
@@ -74,7 +74,7 @@ public class MutableNumber extends Number {
 	}
 
 	/**
-	 * Creates a new instance of MubableNumber with the specified value.
+	 * Creates a new instance of MutableNumber with the specified value.
 	 * 
 	 * @param value The value for this Number.
 	 */
@@ -83,7 +83,7 @@ public class MutableNumber extends Number {
 	}
 
 	/**
-	 * Creates a new instance of MubableNumber with the specified value.
+	 * Creates a new instance of MutableNumber with the specified value.
 	 * 
 	 * @param value The value for this Number.
 	 */
@@ -92,7 +92,7 @@ public class MutableNumber extends Number {
 	}
 
 	/**
-	 * Creates a new instance of MubableNumber with the specified value.
+	 * Creates a new instance of MutableNumber with the specified value.
 	 * 
 	 * @param value The value for this Number.
 	 */
