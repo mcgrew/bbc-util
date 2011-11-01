@@ -69,7 +69,7 @@ public class Statistics {
 	 * @return    The Pearson correlation value. 
 	 */
 	public static double getPearsonCorrelation( double[] x, double[] y ) {
-		if ( x.length != y.length )
+		if ( x.length != y.length || x.length < 3 )
 			return Double.NaN;
 
 		double Sx=0, Sy=0, meanX=0, meanY=0, thisX, thisY, numerator=0;
@@ -126,7 +126,7 @@ public class Statistics {
 	 * @return       The Spearman correlation value.
 	 */
 	public static double getSpearmanCorrelation( double[] x, double[] y ){
-		if ( x.length != y.length )
+		if ( x.length != y.length || x.length < 3 )
 			return Double.NaN;
 
 		int n = x.length;
@@ -171,7 +171,7 @@ public class Statistics {
 	 * @return The Kendall tau correlation value.
 	 */
 	public static double getKendallCorrelation( double[] x, double[] y ) {
-		if ( x.length != y.length )
+		if ( x.length != y.length || x.length < 3 )
 			return Double.NaN;
 
 		int n = x.length;

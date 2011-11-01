@@ -52,6 +52,14 @@ public interface Attributes<T> {
 	public Map<String,T> getAttributes( );
 
 	/**
+	 * Determines if this object has the requested attribute.
+	 * 
+	 * @param attribute The attribute to check for.
+	 * @return A boolean indicating whether or not the object has the requested
+	 *	attribute.
+	 */
+	public boolean hasAttribute( String attribute );
+	/**
 	 * Sets an attribute for this object.
 	 * 
 	 * @param attribute The attribute to set.
