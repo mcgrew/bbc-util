@@ -59,13 +59,14 @@ public interface Attributes<T> {
 	 *	attribute.
 	 */
 	public boolean hasAttribute( String attribute );
+
 	/**
 	 * Sets an attribute for this object.
 	 * 
 	 * @param attribute The attribute to set.
 	 * @param value The new value for the specified attribute.
 	 */
-	public void setAttribute( String attribute, T value );
+	public T setAttribute( String attribute, T value );
 
 	/**
 	 * Sets multiple Attributes for this object

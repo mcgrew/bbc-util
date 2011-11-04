@@ -353,7 +353,7 @@ public class Settings extends Properties {
 		if ( returnValue == null )
 			return Double.NaN;
 		else
-			return Integer.parseInt( returnValue.toString( ));
+			return Double.parseDouble( returnValue.toString( ));
 	}
 
 	/**
