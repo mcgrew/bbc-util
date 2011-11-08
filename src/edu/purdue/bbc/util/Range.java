@@ -150,6 +150,59 @@ public class Range implements Cloneable {
 		this.min = min;
 		this.max = max;
 	}
+
+	/**
+	 * Expands this Range by the given amount on both upper and lower bounds.
+	 * 
+	 * @param percent The amount to expand this range by.
+	 * @return This range after making the expansion.
+	 */
+	public Range expand ( float amount ) {
+		return this.expand( (double)amount );
+	}
+
+	/**
+	 * Expands this Range by the given amount on both upper and lower bounds.
+	 * 
+	 * @param percent The amount to expand this range by.
+	 * @return This range after making the expansion.
+	 */
+	public Range expand ( double amount ) {
+		this.setRange( min - amount, max + amount );
+		return this;
+	}
+
+	/**
+	 * Expands this Range by the given percentage on both upper and lower bounds,
+	 * based on the size of this Range.
+	 * 
+	 * @param percent The percent to expand this range by.
+	 * @return This range after making the expansion.
+	 */
+	public Range expandPercent( float percent ) {
+		return this.expandPercent( (double)percent );
+	}
+
+	/**
+	 * Expands this Range by the given percentage on both upper and lower bounds,
+	 * based on the size of this Range.
+	 * 
+	 * @param percent The percent to expand this range by.
+	 * @return This range after making the expansion.
+	 */
+	public Range expandPercent( double percent ) {
+		this.expand( this.size( ) * percent );
+		return this;
+	}
+
+	/**
+	 * Returns the size of this Range, a.k.a max - min.
+	 * 
+	 * @return The size of this Range.
+	 */
+	public double size( ) {
+		return this.max - this.min;
+	}
 	
 	/**
 	 * Returns the minimum value of this Range.

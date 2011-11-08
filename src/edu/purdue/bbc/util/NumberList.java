@@ -623,5 +623,50 @@ public class NumberList extends ArrayList<Number> {
 			return new Double( values[ items / 2 ] );
 	}
 
+	/**
+	 * Gets the minimum value from this NumberList.
+	 * 
+	 * @return The minimum value.
+	 */
+	public Number getMin( ) {
+		Number returnValue = new Double( Double.POSITIVE_INFINITY );
+		for ( Number n : this ) {
+			if ( Double.compare( n.doubleValue( ), returnValue.doubleValue( )) < 0 )
+				returnValue = n;
+		}
+		return returnValue;
+	}
+
+	/**
+	 * Gets the maximum value from this NumberList.
+	 * 
+	 * @return The maximum value.
+	 */
+	public Number getMax( ) {
+		Number returnValue = new Double( Double.NEGATIVE_INFINITY );
+		for ( Number n : this ) {
+			if ( Double.compare( n.doubleValue( ), returnValue.doubleValue( )) > 0 )
+				returnValue = n;
+		}
+		return returnValue;
+	}
+
+	/**
+	 * Gets the range spanned by this NumberList.
+	 * 
+	 * @return A range which includes every value in this NumberList.
+	 */
+	public Range getRange( ) {
+		Number min = new Double( Double.POSITIVE_INFINITY );
+		Number max = new Double( Double.NEGATIVE_INFINITY );
+		for ( Number n : this ) {
+			if ( Double.compare( n.doubleValue( ), max.doubleValue( )) > 0 )
+				max = n;
+			if ( Double.compare( n.doubleValue( ), min.doubleValue( )) < 0 )
+				min = n;
+		}
+		return new Range( min.doubleValue( ), max.doubleValue( ));
+	}
+
 }
 
