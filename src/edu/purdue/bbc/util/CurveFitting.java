@@ -63,8 +63,7 @@ public class CurveFitting {
 		int NaNCount = 0;
 		for( int x=0; x < values.length; x++ ) {
 			double y = values[ x ];
-			if ( !Double.isNaN( y ) && 
-				   Double.compare( y, 0.0 ) != 0 ) {
+			if ( !Double.isNaN( y )) {
 				meanXY += x * y;
 				meanY  += y;
 				meanXsq += x * x;
@@ -213,7 +212,7 @@ public class CurveFitting {
 
 		current = exponentialFit( values );
 		currentChi2 = getChiSquare( values, current );
-		if ( Double.compare( currentChi2, chi2 ) < 0 ) {
+		if ( !Double.isNaN( currentChi2 ) && Double.compare( currentChi2, chi2 ) < 0 ) {
 			returnValue = current;
 			chi2 = currentChi2;
 		}
@@ -221,18 +220,21 @@ public class CurveFitting {
 	}
 
 	public static double getChiSquare( double [] values, Equation equation ) {
-		double returnValue = 0.0;
+		double returnValue = Double.NaN;
 		double expected, actual;
 		for( int x=0; x < values.length; x++ ) {
-			try {
-				expected = equation.solve( x );
-			} catch ( IllegalArgumentException e ) {
-				Logger.getLogger( Statistics.class ).debug( e );
-				continue;
+			if( !Double.isNaN( values[ x ])) {
+				try {
+					expected = equation.solve( x );
+				} catch ( IllegalArgumentException e ) {
+					Logger.getLogger( Statistics.class ).debug( e );
+					continue;
+				}
+				actual = values[ x ];
+				if ( !Double.isNaN( actual ) && !Double.isNaN( expected ))
+				returnValue = Double.isNaN( returnValue ) ? 0.0 : returnValue + 
+					Math.pow( actual - expected, 2 )  / Math.abs( expected );
 			}
-			actual = values[ x ];
-			if ( !Double.isNaN( actual ) && !Double.isNaN( expected ))
-			returnValue += Math.pow( actual - expected, 2 )  / Math.abs( expected );
 		}
 		return returnValue;
 	}

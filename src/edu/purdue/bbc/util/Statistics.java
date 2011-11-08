@@ -45,6 +45,7 @@ public class Statistics {
 
 	/**
 	 * Returns the Pearson correlation coefficient of the 2 sets of values.
+	 * Each array should be the same length and contain at least 3 values.
 	 * 
 	 * <PRE>
 	 *    x = sample values in the first set
@@ -66,7 +67,7 @@ public class Statistics {
 	 *
 	 * @param x The first set of values to use for the calculation.
 	 * @param y The second set of values to use for the calculation.
-	 * @return    The Pearson correlation value. 
+	 * @return The Pearson correlation value. 
 	 */
 	public static double getPearsonCorrelation( double[] x, double[] y ) {
 		if ( x.length != y.length || x.length < 3 )
@@ -102,6 +103,7 @@ public class Statistics {
 
 	/**
 	 * Returns the Spearman rank correlation coefficient of the 2 sets of data.
+	 * Each array should be the same length and contain at least 3 values.
 	 *
 	 * <PRE>
 	 *    x = values in the first set
@@ -123,7 +125,7 @@ public class Statistics {
 	 * 
 	 * @param x The first set of data to use for the calculation.
 	 * @param y The second set of data to use for the calculation.
-	 * @return       The Spearman correlation value.
+	 * @return The Spearman correlation value.
 	 */
 	public static double getSpearmanCorrelation( double[] x, double[] y ){
 		if ( x.length != y.length || x.length < 3 )
@@ -143,6 +145,7 @@ public class Statistics {
 
 	/**
 	 * Returns the Kendall tau rank correlation coefficient of the 2 sets of data.
+	 * Each array should be the same length and contain at least 3 values.
 	 * 
 	 * <PRE>
 	 *    x = values in the first set
