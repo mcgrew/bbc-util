@@ -645,7 +645,7 @@ public class NumberList extends ArrayList<Number> {
 	public Number getMax( ) {
 		Number returnValue = new Double( Double.NEGATIVE_INFINITY );
 		for ( Number n : this ) {
-			if ( Double.isNaN( n.doubleValue( )) &&
+			if ( !Double.isNaN( n.doubleValue( )) &&
 				   Double.compare( n.doubleValue( ), returnValue.doubleValue( )) > 0 )
 				returnValue = n;
 		}
@@ -661,7 +661,7 @@ public class NumberList extends ArrayList<Number> {
 		Number min = new Double( Double.POSITIVE_INFINITY );
 		Number max = new Double( Double.NEGATIVE_INFINITY );
 		for ( Number n : this ) {
-			if ( Double.isNaN( n.doubleValue( )) &&
+			if ( !Double.isNaN( n.doubleValue( )) &&
 				   Double.compare( n.doubleValue( ), max.doubleValue( )) > 0 )
 				max = n;
 			if ( Double.compare( n.doubleValue( ), min.doubleValue( )) < 0 )

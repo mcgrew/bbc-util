@@ -291,11 +291,16 @@ public class Statistics {
 	 */
 	public static double standardDeviation( double [] values ) {
 		double sum = 0.0, sumSq = 0.0;
+		int length = 0;
 		for ( double d : values ) {
-			sum += d;
-			sumSq += d*d;
+			if ( !Double.isNaN( d )) {
+				sum += d;
+				sumSq += d*d;
+				length++;
+			}
 		}
-		return Math.sqrt((( sumSq - sum * sum ) / values.length ) / ( values.length - 1 ));
+		return Math.sqrt(( Math.abs( sumSq - sum * sum ) / 
+		                (( length ) * ( length - 1 ))));
 	}
 
 	/**
@@ -305,19 +310,19 @@ public class Statistics {
 	 * @return The median of those values.
 	 */
 	public static double median( double [] values ) {
+		int length = values.length;
+		for ( double value : values ) {
+			if ( Double.isNaN( value ))
+				length--;
+		}
+		if ( length == 0 )
+			return Double.NaN;
 		double [] sorted = Arrays.copyOf( values, values.length );
 		Arrays.sort( sorted );
-		int count = 0;
-		// count the number of Non-NaN values.
-		for ( double d : values ){
-			if ( !Double.isNaN( d )) {
-				count++;
-			}
-		}
-		if (( count & 1 ) == 0 ) {
-			return ( values[ count / 2 ] + values[ count / 2 + 1 ]) / 2;
+		if (( length & 1 ) == 0 ) {
+			return ( sorted[ length / 2 ] + sorted[ length / 2 + 1 ]) / 2;
 		} else {
-			return values[ count / 2 ];
+			return sorted[ length / 2 ];
 		}
 	}
 
@@ -361,6 +366,8 @@ public class Statistics {
 	 * @return The minimum value in the array.
 	 */
 	public static double min( double [] values ) {
+		if ( values.length == 0 )
+			return Double.NaN;
 		double returnValue = Double.POSITIVE_INFINITY;;
 		for ( double d : values ) {
 			returnValue = Math.min( returnValue, d );
@@ -375,6 +382,8 @@ public class Statistics {
 	 * @return The maximum value in the array.
 	 */
 	public static double max( double [] values ) {
+		if ( values.length == 0 )
+			return Double.NaN;
 		double returnValue = Double.NEGATIVE_INFINITY;
 		for ( double d : values ) {
 			if ( !Double.isNaN( d )) {
@@ -383,5 +392,139 @@ public class Statistics {
 		}
 		return returnValue;
 	}
+
+	/**
+	 * Returns the minimum regular value in a data set. This is the smallest
+	 * value that would not be considered an outlier.
+	 * 
+	 * @param values The set of values to find the minimum regular value for.
+	 * @return The minimum regular value.
+	 */
+	public static double minRegular( double[] values ) {
+		double [] sorted = Arrays.copyOf( values, values.length );
+		Arrays.sort( sorted );
+		double q1 = firstQuartile( sorted );
+		for ( double d : sorted ) {
+			if ( Double.compare( d, q1 ) >= 0 )
+				return d;
+		}
+		return Double.NaN;
+	}
+
+	/**
+	 * Returns the maximum regular value in a data set. This is the largest
+	 * value that would not be considered an outlier.
+	 * 
+	 * @param values The set of values to find the maximum regular value for.
+	 * @return The minimum regular value.
+	 */
+	public static double maxRegular( double[] values ) {
+		double [] sorted = Arrays.copyOf( values, values.length );
+		Arrays.sort( sorted );
+		double q3 = thirdQuartile( sorted );
+		for ( int i = sorted.length; i >= 0; i-- ) {
+			if ( Double.compare( sorted[ i ], q3 ) <= 0 )
+				return sorted[ i ];
+		}
+		return Double.NaN;
+	}
+
+	/**
+	 * Returns the data value that is the 25th percentile of a set of data.
+	 * 
+	 * @param values The set of values to find the first quartile of.
+	 * @return The first quartile data point.
+	 */
+	public static double firstQuartile( double[] values ) {
+		int length = values.length;
+		for ( double value : values ) {
+			if ( Double.isNaN( value ))
+				length--;
+		}
+		if ( length == 0 )
+			return Double.NaN;
+		double [] sorted = Arrays.copyOf( values, values.length );
+		Arrays.sort( sorted );
+		int quartilePos = length / 4 + 1;
+		if ( length % 4 == 0 )
+			return ( sorted[ quartilePos - 1 ] + sorted[ quartilePos ]) / 2;
+		else
+			return sorted[ quartilePos ];
+	}
+
+	/**
+	 * Returns the data value that is the 75th percentile of a set of data.
+	 * 
+	 * @param values The set of values to find the third quartile of.
+	 * @return The third quartile data point.
+	 */
+	public static double thirdQuartile( double[] values ) {
+		int length = values.length;
+		for ( double value : values ) {
+			if ( Double.isNaN( value ))
+				length--;
+		}
+		if ( length == 0 )
+			return Double.NaN;
+		double [] sorted = Arrays.copyOf( values, values.length );
+		Arrays.sort( sorted );
+		int quartilePos = length - length / 4 - 1;
+		if ( length % 4 == 0 )
+			return ( sorted[ quartilePos + 1 ] + sorted[ quartilePos ]) / 2;
+		else
+			return sorted[ quartilePos ];
+	}
+
+	/**
+	 * Finds the outliers in a data set.
+	 * 
+	 * @param values The set of data to find the outliers of.
+	 * @return All values that fall outside of the regular value range.
+	 */
+	public static double[] outliers( double[] values ) {
+		NumberList outliers = new NumberList( );
+		Range regularRange = regularRange( values );
+		for ( double value : values ) {
+			if ( !regularRange.contains( value ))
+				outliers.add( value );
+		}
+		return outliers.toDoubleArray( );
+	}
+
+	/**
+	 * Finds the range inside which all regular values fall (inclusive).
+	 * 
+	 * @param values The set of data to find the regular range for.
+	 * @return A range outside which all other values in the data set would be
+	 *	considered outliers.
+	 */
+	public static Range regularRange( double[] values ) {
+		double [] sorted = Arrays.copyOf( values, values.length );
+		Arrays.sort( sorted );
+		Range range = new Range( firstQuartile( sorted ), thirdQuartile( sorted ))
+			.scale( 4.0 );
+		double low = Double.NaN;
+		double high = Double.NaN;
+		for ( double d : sorted ) {
+			if ( Double.isNaN( low ) && range.contains( d ))
+				low = d;
+			if ( Double.isNaN( high ) || range.contains( d ))
+				high = d;
+		}
+		return new Range( low, high );
+	}
+
+	/**
+	 * Finds the range of the first and third quartiles of a data set, or the
+	 * 25th to 75th percentile of a set of data.
+	 * 
+	 * @param values The set of data to find the quartile range for.
+	 * @return A range containing the 25th to 75th percentiles.
+	 */
+	public static Range quartileRange( double[] values ) {
+		return new Range( firstQuartile( values ), thirdQuartile( values ));
+	}
+
+
 }
 
