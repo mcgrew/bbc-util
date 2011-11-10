@@ -154,7 +154,7 @@ public class Range implements Cloneable {
 	/**
 	 * Expands this Range by the given amount on both upper and lower bounds.
 	 * 
-	 * @param percent The amount to expand this range by.
+	 * @param amount The amount to expand this range by.
 	 * @return This range after making the expansion.
 	 */
 	public Range expand( float amount ) {
@@ -164,7 +164,7 @@ public class Range implements Cloneable {
 	/**
 	 * Expands this Range by the given amount on both upper and lower bounds.
 	 * 
-	 * @param percent The amount to expand this range by.
+	 * @param amount The amount to expand this range by.
 	 * @return This range after making the expansion.
 	 */
 	public Range expand( double amount ) {

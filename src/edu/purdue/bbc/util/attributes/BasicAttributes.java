@@ -124,7 +124,8 @@ public class BasicAttributes<T> implements Attributes<T> {
 	/**
 	 * Sets multiple Attributes for this object
 	 * 
-	 * @param map A map containing all of the attributes to be set.
+	 * @param attributes An attributes object containing all of the attributes 
+	 *	to be set.
 	 */
 	public void setAttributes( Attributes<T> attributes ) {
 		for ( Map.Entry<String,T> attribute : 
