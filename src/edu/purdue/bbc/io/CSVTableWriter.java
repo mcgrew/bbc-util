@@ -48,7 +48,7 @@ public class CSVTableWriter {
 	protected String [] keys;
 	protected String delimiter;
 	protected boolean useQuotes;
-	public static Pattern numberPattern = 
+	public static final Pattern NUMBER_PATTERN = 
 		Pattern.compile("(\\d+\\.?\\d*|\\.\\d+)([Ee]\\d+)?");
 
 	/**
@@ -181,7 +181,7 @@ public class CSVTableWriter {
 		for ( int i=0; i < this.keys.length; i++ ) {
 			if ( i > 0 )
 				output.write( delimiter );
-			if ( useQuotes && !numberPattern.matcher( keys[ i ] ).matches( )) {
+			if ( useQuotes && !NUMBER_PATTERN.matcher( keys[ i ] ).matches( )) {
 				output.write( "\"" + keys[ i ] + "\"" );
 			} else {
 				output.write( keys[ i ]);
@@ -195,13 +195,13 @@ public class CSVTableWriter {
 	 * 
 	 * @param values A Map containing the values to be written.
 	 */
-	public void write( Map<String,Object> values ) throws IOException {
+	public void write( Map<String,? extends Object> values ) throws IOException {
 		for ( int i=0; i < this.keys.length; i++ ) {
 			if ( i > 0 )
 				output.write( delimiter );
 			Object value = values.get( keys[ i ]);
 			if ( value != null ) {
-				if ( useQuotes && !numberPattern.matcher( value.toString( )).matches( )) {
+				if ( useQuotes && !NUMBER_PATTERN.matcher( value.toString( )).matches( )) {
 					output.write( "\"" + value.toString( ) + "\"" );
 				} else {
 					output.write( value.toString( ));
@@ -220,7 +220,7 @@ public class CSVTableWriter {
 			if ( i > 0 )
 				output.write( delimiter );
 			if ( i <= values.length && values[ i ] != null ) {
-				if ( useQuotes && !numberPattern.matcher( values[ i ].toString( )).matches( )) {
+				if ( useQuotes && !NUMBER_PATTERN.matcher( values[ i ].toString( )).matches( )) {
 					output.write( "\"" + values[ i ].toString( ) + "\"" );
 				} else {
 					output.write( values[ i ].toString( ));
@@ -234,13 +234,13 @@ public class CSVTableWriter {
 	 * 
 	 * @param values An Attributes object whose values are to be written out.
 	 */
-	public void write( Attributes<Object> values ) throws IOException {
+	public void write( Attributes<? extends Object> values ) throws IOException {
 		for ( int i=0; i < this.keys.length; i++ ) {
 			if ( i > 0 )
 				output.write( delimiter );
 			Object value = values.getAttribute( keys[ i ]);
 			if ( value != null ) {
-				if ( useQuotes && !numberPattern.matcher( value.toString( )).matches( )) {
+				if ( useQuotes && !NUMBER_PATTERN.matcher( value.toString( )).matches( )) {
 					output.write( "\"" + value.toString( ) + "\"" );
 				} else {
 					output.write( value.toString( ));
