@@ -31,6 +31,7 @@ package edu.purdue.bbc.io;
 
 import edu.purdue.bbc.util.attributes.Attributes;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -44,7 +45,7 @@ import java.util.regex.Pattern;
  * A class for writing a set of tabular data to a file.
  */
 public class CSVTableWriter {
-	protected Writer output;
+	protected BufferedWriter output;
 	protected String [] keys;
 	protected String delimiter;
 	protected boolean useQuotes;
@@ -166,6 +167,7 @@ public class CSVTableWriter {
 	}
 
 	/**
+
 	 * Creates a new Identification writer with the default headers.
 	 * 
 	 * @param output The Writer to write output to.
@@ -175,7 +177,7 @@ public class CSVTableWriter {
 	public CSVTableWriter( Writer output, String[] keys, String delimiter, 
 	                       boolean useQuotes ) throws IOException {
 		this.keys = keys;
-		this.output = output;
+		this.output = new BufferedWriter( output );
 		this.delimiter = delimiter;
 		this.useQuotes = useQuotes;
 		for ( int i=0; i < this.keys.length; i++ ) {
@@ -187,7 +189,7 @@ public class CSVTableWriter {
 				output.write( keys[ i ]);
 			}
 		}
-		output.write( "\n" );
+		this.output.newLine( );
 	}
 
 	/**
@@ -208,6 +210,7 @@ public class CSVTableWriter {
 				}
 			}
 		}
+		output.newLine( );
 	}
 
 	/**
@@ -227,6 +230,7 @@ public class CSVTableWriter {
 				}
 			}
 		}
+		output.newLine( );
 	}
 
 	/**
@@ -247,6 +251,7 @@ public class CSVTableWriter {
 				}
 			}
 		}
+		output.newLine( );
 	}
 
 	/**
