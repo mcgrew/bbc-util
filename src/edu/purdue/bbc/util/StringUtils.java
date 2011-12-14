@@ -31,6 +31,7 @@ package edu.purdue.bbc.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Collection;
 
 /**
  * A class for String operations.
@@ -93,6 +94,36 @@ public class StringUtils {
 			matcher.reset( s );
 		}
 		return s;
+	}
+
+	/**
+	 * Joins a Collection of Strings into a single string, inserting a space
+	 * between each one.
+	 * 
+	 * @param strings The Collection of Strings to join.
+	 * @return The resulting String.
+	 */
+	public static String join( Collection<String> strings ) {
+		return join( strings, " " );
+	}
+
+	/**
+	 * Joins a Collection of Strings into a single string, inserting a separator
+	 * String between each one.
+	 * 
+	 * @param strings The Collection of Strings to join.
+	 * @param separator The separator to use between Strings.
+	 * @return The resulting String.
+	 */
+	public static String join( Collection<String> strings, String separator ) {
+		StringBuilder returnValue = new StringBuilder( );
+		for ( String string : strings ) {
+			if ( returnValue.length( ) > 0 ) {
+				returnValue.append( separator );
+			}
+			returnValue.append( string );
+		}
+		return returnValue.toString( );
 	}
 }
 
