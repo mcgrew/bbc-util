@@ -37,6 +37,8 @@ import java.util.Collection;
  * A class for String operations.
  */
 public class StringUtils {
+	private static final Pattern NUMBER_PATTERN = 
+		Pattern.compile("(\\d+\\.?\\d*|\\.\\d+)([Ee]\\d+)?");
 
 	/**
 	 * Converts a string to camel case, assuming '_' as the word separator.
@@ -49,7 +51,7 @@ public class StringUtils {
 	}
 
 	/**
-	 * Converst a string to camel case.
+	 * Converts a string to camel case.
 	 * 
 	 * @param s The string to be camel cased.
 	 * @param space The current word separator character.
@@ -68,21 +70,21 @@ public class StringUtils {
 	}
 
 	/**
-	 * Reverts a String from camel case, using '_' as the word separator.
+	 * Reverts a string from camel case, using '_' as the word separator.
 	 * 
 	 * @param s The string to be transformed.
-	 * @return The new String.
+	 * @return The new string.
 	 */
 	public static String unCamelCase( String s ) {
 		return unCamelCase( s, '_' );
 	}
 
 	/**
-	 * Reverts a String from camel case.
+	 * Reverts a string from camel case.
 	 * 
 	 * @param s The string to be transformed.
 	 * @param space The new word separator character.
-	 * @return The new String.
+	 * @return The new string.
 	 */
 	public static String unCamelCase( String s, char space ) {
 		final Pattern pattern = Pattern.compile( "([a-z0-9])([A-Z])" );
@@ -97,23 +99,23 @@ public class StringUtils {
 	}
 
 	/**
-	 * Joins a Collection of Strings into a single string, inserting a space
+	 * Joins a Collection of strings into a single string, inserting a space
 	 * between each one.
 	 * 
-	 * @param strings The Collection of Strings to join.
-	 * @return The resulting String.
+	 * @param strings The Collection of strings to join.
+	 * @return The resulting string.
 	 */
 	public static String join( Collection<String> strings ) {
 		return join( strings, " " );
 	}
 
 	/**
-	 * Joins a Collection of Strings into a single string, inserting a separator
-	 * String between each one.
+	 * Joins a Collection of strings into a single string, inserting a separator
+	 * string between each one.
 	 * 
-	 * @param strings The Collection of Strings to join.
-	 * @param separator The separator to use between Strings.
-	 * @return The resulting String.
+	 * @param strings The Collection of strings to join.
+	 * @param separator The separator to use between strings.
+	 * @return The resulting string.
 	 */
 	public static String join( Collection<String> strings, String separator ) {
 		StringBuilder returnValue = new StringBuilder( );
@@ -124,6 +126,16 @@ public class StringUtils {
 			returnValue.append( string );
 		}
 		return returnValue.toString( );
+	}
+
+	/**
+	 * Tests a string to determine whether it can be interpreted as a number.
+	 * 
+	 * @param s The string to test.
+	 * @return true if the string contains only a number.
+	 */
+	public static boolean isNumeric( String s ) {
+		return NUMBER_PATTERN.matcher( s ).matches( );
 	}
 }
 

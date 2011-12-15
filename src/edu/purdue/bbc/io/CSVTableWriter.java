@@ -30,6 +30,7 @@ License: X11 license.
 package edu.purdue.bbc.io;
 
 import edu.purdue.bbc.util.attributes.Attributes;
+import edu.purdue.bbc.util.StringUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -49,8 +50,6 @@ public class CSVTableWriter {
 	protected String [] keys;
 	protected String delimiter;
 	protected boolean useQuotes;
-	public static final Pattern NUMBER_PATTERN = 
-		Pattern.compile("(\\d+\\.?\\d*|\\.\\d+)([Ee]\\d+)?");
 
 	/**
 	 * Creates a new IdentificationWriter.
@@ -183,7 +182,7 @@ public class CSVTableWriter {
 		for ( int i=0; i < this.keys.length; i++ ) {
 			if ( i > 0 )
 				output.write( delimiter );
-			if ( useQuotes && !NUMBER_PATTERN.matcher( keys[ i ] ).matches( )) {
+			if ( useQuotes && !StringUtils.isNumeric( keys[ i ] )) {
 				output.write( "\"" + keys[ i ] + "\"" );
 			} else {
 				output.write( keys[ i ]);
@@ -203,7 +202,7 @@ public class CSVTableWriter {
 				output.write( delimiter );
 			Object value = values.get( keys[ i ]);
 			if ( value != null ) {
-				if ( useQuotes && !NUMBER_PATTERN.matcher( value.toString( )).matches( )) {
+				if ( useQuotes && !StringUtils.isNumeric( value.toString( ))) {
 					output.write( "\"" + value.toString( ) + "\"" );
 				} else {
 					output.write( value.toString( ));
@@ -223,7 +222,7 @@ public class CSVTableWriter {
 			if ( i > 0 )
 				output.write( delimiter );
 			if ( i <= values.length && values[ i ] != null ) {
-				if ( useQuotes && !NUMBER_PATTERN.matcher( values[ i ].toString( )).matches( )) {
+				if ( useQuotes && !StringUtils.isNumeric( values[ i ].toString( ))) {
 					output.write( "\"" + values[ i ].toString( ) + "\"" );
 				} else {
 					output.write( values[ i ].toString( ));
@@ -244,7 +243,7 @@ public class CSVTableWriter {
 				output.write( delimiter );
 			Object value = values.getAttribute( keys[ i ]);
 			if ( value != null ) {
-				if ( useQuotes && !NUMBER_PATTERN.matcher( value.toString( )).matches( )) {
+				if ( useQuotes && !StringUtils.isNumeric( value.toString( ))) {
 					output.write( "\"" + value.toString( ) + "\"" );
 				} else {
 					output.write( value.toString( ));
