@@ -38,7 +38,7 @@ import java.util.Collection;
  */
 public class StringUtils {
 	private static final Pattern NUMBER_PATTERN = 
-		Pattern.compile("(\\d+\\.?\\d*|\\.\\d+)([Ee]\\d+)?");
+		Pattern.compile("(-?\\d+\\.?\\d*|\\.\\d+)([Ee]\\d+)?");
 
 	/**
 	 * Converts a string to camel case, assuming '_' as the word separator.
