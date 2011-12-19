@@ -40,6 +40,8 @@ public class StringUtils {
 	private static final Pattern NUMBER_PATTERN = 
 		Pattern.compile("(-?\\d+\\.?\\d*|\\.\\d+)([Ee]\\d+)?");
 
+	private StringUtils( ) { }
+
 	/**
 	 * Converts a string to camel case, assuming '_' as the word separator.
 	 * 
