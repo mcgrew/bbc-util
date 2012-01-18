@@ -38,6 +38,8 @@ import java.io.IOException;
  * A class for String operations.
  */
 public class FileUtils {
+	
+	private FileUtils( ) { }
 
 	/**
 	 * Copies a file from one location to another.
