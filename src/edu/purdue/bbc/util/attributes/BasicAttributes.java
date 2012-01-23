@@ -49,8 +49,7 @@ public class BasicAttributes<T> implements Attributes<T> {
 	 * When case sensitivity is set to false, all attribute names are forced to
 	 * lower case.
 	 * 
-	 * @param caseSensitive false forces attribute names should be forced to
-	 *	lower case. 
+	 * @param caseSensitive false forces attribute names to	lower case. 
 	 */
 	public BasicAttributes( boolean caseSensitive ) {
 		this.caseSensitive = caseSensitive;

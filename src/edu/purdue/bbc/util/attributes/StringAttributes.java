@@ -48,8 +48,7 @@ public class StringAttributes extends BasicAttributes<String> {
 	 * When case sensitivity is set to false, all attribute names are forced to
 	 * lower case.
 	 * 
-	 * @param caseSensitive false forces attribute names should be forced to
-	 *	lower case. 
+	 * @param caseSensitive false forces attribute names to	lower case. 
 	 */
 	public StringAttributes( boolean caseSensitive ) {
 		super( caseSensitive );
@@ -103,8 +102,12 @@ public class StringAttributes extends BasicAttributes<String> {
 	 * @param value The new value for the specified attribute.
 	 */
 	public int setIntAttribute( String attribute, int value ) {
-		return Integer.parseInt( 
-			this.setAttribute( attribute, Integer.toString( value )));
+		try {
+			return Integer.parseInt( 
+				this.setAttribute( attribute, Integer.toString( value )));
+		} catch ( NumberFormatException e ) {
+			return 0;
+		}
 	}
 
 	/**
@@ -114,8 +117,12 @@ public class StringAttributes extends BasicAttributes<String> {
 	 * @param value The new value for the specified attribute.
 	 */
 	public double setDoubleAttribute( String attribute, double value ) {
-		return Double.parseDouble( 
-			this.setAttribute( attribute, Double.toString( value )));
+		try {
+			return Double.parseDouble( 
+				this.setAttribute( attribute, Double.toString( value )));
+		} catch ( NumberFormatException e ) {
+			return 0.0;
+		}
 	}
 
 }

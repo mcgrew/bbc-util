@@ -33,7 +33,7 @@ import java.awt.geom.Point2D;
 
 /**
  * A Class for extending Point2D to include Polar Coordinates. Although this class has public members x, y, r, and
- * theta, it is not recommended to modify them directly, this may have unpredictable results. Instead use the
+ * theta, it is not recommended to modify them directly, as this may have unpredictable results. Instead use the
  * setLocation( ) and move( ) methods to manipulate the location of the point.
  */
 public class PolarPoint2D extends Point2D.Double {
@@ -215,6 +215,12 @@ public class PolarPoint2D extends Point2D.Double {
 		this.setLocation( this.x + x, this.y + y );
 	}
 
+	/**
+	 * Moves this point by the specified distances. Effectively adds the x and y
+	 * values of the passed in point to this point.
+	 * 
+	 * @param p The point containing values to move this point by.
+	 */
 	public void move( Point2D p ) {
 		this.setLocation( this.x + p.getX( ), this.y + p.getY( ));
 	}
@@ -290,7 +296,7 @@ public class PolarPoint2D extends Point2D.Double {
 	}
 
 	/**
-	 * Scales the xycoordinate of this point in relation to the point (0,0).
+	 * Scales the y coordinate of this point in relation to the point (0,0).
 	 * 
 	 * @param value The amount to scale the y coordinate by.
 	 */

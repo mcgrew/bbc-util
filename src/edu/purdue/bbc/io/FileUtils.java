@@ -35,7 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * A class for String operations.
+ * A class for File operations.
  */
 public class FileUtils {
 	
