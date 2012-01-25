@@ -139,5 +139,15 @@ public class StringUtils {
 	public static boolean isNumeric( String s ) {
 		return NUMBER_PATTERN.matcher( s ).matches( );
 	}
+
+	/**
+	 * Converts a character to a String.
+	 * 
+	 * @param c The character to be converted.
+	 * @return A string containing a single character.
+	 */
+	public static String toString( char c ) {
+		return new StringBuilder( ).append( c ).toString( );
+	}
 }
 
