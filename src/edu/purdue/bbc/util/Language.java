@@ -232,7 +232,8 @@ public class Language {
 
 		if ( true )
 			Logger.getLogger( getClass( )).debug( 
-				String.format( "'%s' not in language file", s ));
+				String.format( "'%s' not in language file (%s)", 
+					s, ProcessUtils.getCallerDescription( )));
 		return s;
 	}
 }
