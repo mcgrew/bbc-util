@@ -31,10 +31,14 @@ package edu.purdue.bbc.util.attributes;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 public class AttributesFilterList<T extends Attributes>
                                   extends ArrayList<AttributesFilter<T>> 
                                   implements AttributesFilter<T> {
+	public static final int AND = 0;
+	public static final int OR = 1;
+	private int operation = AND;
 
 	/**
 	 * Creates a new CriteriaFilter
@@ -47,10 +51,25 @@ public class AttributesFilterList<T extends Attributes>
 	 * Creates a new AttributesFilterList with the initial number of Criterion slots.
 	 * 
 	 * @see ArrayList#constructor( int )
+	 * @param operation The operation to be performed by this list. Should be one of
+	 *	AttributesFilterList.AND or AttributesFilterList.OR.
+	 */
+	public AttributesFilterList( int operation ) {
+		super( );
+		this.operation = operation;
+	}
+
+	/**
+	 * Creates a new AttributesFilterList with the initial number of Criterion slots.
+	 * 
+	 * @see ArrayList#constructor( int )
+	 * @param operation The operation to be performed by this list. Should be one of
+	 *	AttributesFilterList.AND or AttributesFilterList.OR.
 	 * @param initialSize The initial size of the backing List
 	 */
-	public AttributesFilterList( int initialSize ) {
+	public AttributesFilterList( int operation, int initialSize ) {
 		super( initialSize );
+		this.operation = operation;
 	}
 
 	/**
@@ -64,6 +83,28 @@ public class AttributesFilterList<T extends Attributes>
 	}
 
 	/**
+	 * Sets the operation for this filter list. If set to AND, only Attributes
+	 * which pass through ALL filters contained within will be returned. If set
+	 * to OR, Attributes which pass through ANY of the contained filters will
+	 * be returned.
+	 * 
+	 * @param 
+	 * @return 
+	 */
+	public void setOperation( int operation ) {
+		this.operation = operation;
+	}
+
+	/**
+	 * Gets the value of the operation being used by this list.
+	 * 
+	 * @return The operation value.
+	 */
+	public int getOperation( ) {
+		return this.operation;
+	}
+
+	/**
 	 * Filters the passed in Attribute objects based on this filter's criteria.
 	 * 
 	 * @see AttributesFilter#filter( Collection )
@@ -73,9 +114,17 @@ public class AttributesFilterList<T extends Attributes>
 	 */
 	public Collection<T> filter( Collection<T> attributes ) {
 
-		Collection<T> returnValue = new ArrayList<T>( attributes );
-		for ( AttributesFilter a : this ) {
-			returnValue = a.filter( returnValue );
+		Collection<T> returnValue;
+		if ( operation == OR ) {
+			returnValue = new HashSet( );
+			for( AttributesFilter a : this ) {
+				returnValue.addAll( a.filter( attributes ));
+			}
+		} else {
+			returnValue = new ArrayList( attributes );
+			for ( AttributesFilter a : this ) {
+				returnValue = a.filter( returnValue );
+			}
 		}
 		return returnValue;
 	}
@@ -86,14 +135,17 @@ public class AttributesFilterList<T extends Attributes>
 	 * @return A string representation of this object.
 	 */
 	public String toString( ) {
-		String returnValue = "";
+		String returnValue = "(";
 		for ( AttributesFilter f : this ) {
-			if ( returnValue.length( ) > 0 ) {
-				returnValue += ", ";
+			if ( returnValue.length( ) > 1 ) {
+				if ( this.operation == OR )
+					returnValue += " or ";
+				else
+					returnValue += " and ";
 			}
 			returnValue += f.toString( );
 		}
-		return returnValue;
+		return returnValue + ")";
 	}
 
 }
