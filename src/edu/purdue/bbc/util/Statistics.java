@@ -41,6 +41,7 @@ import org.apache.log4j.Logger;
  */
 public class Statistics {
 
+
 	private Statistics( ){ }
 
 	/**
@@ -164,6 +165,7 @@ public class Statistics {
 	 *                     sqrt( ( ------- - Tx ) * (  ------- - Ty ) )
 	 *                                2                   2            
 	 *
+	 * References:
 	 * <CITE>Wikipedia, the free encyclopedia (2010, March 25). 
 	 *     <I>Kendall tau rank correlation coefficient</I>. 
 	 *     Retrieved April 14, 2010, from http://en.wikipedia.org/wiki/Kendall_tau_rank_correlation_coefficient</CITE>

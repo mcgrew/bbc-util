@@ -32,6 +32,8 @@ package edu.purdue.bbc.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.IOException;
 
 /**
@@ -48,16 +50,11 @@ public class FileUtils {
 	 * @param copy The destination file.
 	 * @throws IOException
 	 */
-	public static void copyFile( File original, File copy ) 
-	                                throws IOException {
+	public static void copyFile( File original, File copy ) throws IOException {
 		FileInputStream in = new FileInputStream(  original );
 		copy.getParentFile( ).mkdirs( );
 		FileOutputStream out = new FileOutputStream( copy );
-		byte[] buffer = new byte[ 8192 ];
-		int length;
-		while(( length = in.read( buffer )) > 0 ) {
-			out.write( buffer, 0, length );
-		}
+		copyStream( in, out );
 		in.close( );
 		out.close( );
 	}
@@ -70,8 +67,24 @@ public class FileUtils {
 	 * @throws IOException
 	 */
 	public static void copyFile( String original, String copy ) 
-	                                throws IOException {
+	                                         throws IOException {
 		copyFile( new File( original ), new File( copy ));
+	}
+
+	/**
+	 * Copies from one stream to another.
+	 * 
+	 * @param original The source stream.
+	 * @param copy The destination stream.
+	 * @throws IOException
+	 */
+	public static void copyStream( InputStream original, OutputStream copy ) 
+	                                                      throws IOException {
+		byte[] buffer = new byte[ 8192 ];
+		int length;
+		while(( length = original.read( buffer )) > 0 ) {
+			copy.write( buffer, 0, length );
+		}
 	}
 }
 
