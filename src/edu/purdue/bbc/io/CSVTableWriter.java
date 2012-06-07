@@ -142,6 +142,35 @@ public class CSVTableWriter {
 	}
 
 	/**
+	 * Creates a new IdentificationWriter.
+	 * 
+	 * @param output The File to write output to.
+	 * @param keys The keys for the new CSV table.
+	 * @param delimiter The delimiter for the values in the table.
+	 * @param useQuotes Whether or not to enclose strings in quotes in the output 
+	 *	file.
+	 */
+	public CSVTableWriter( File output, String[] keys, String delimiter, 
+	                       boolean useQuotes ) throws IOException {
+		this( new FileWriter( output ), keys, delimiter, useQuotes );
+	}
+
+	/**
+	 * Creates a new IdentificationWriter.
+	 * 
+	 * @param output The File to write output to.
+	 * @param keys The keys for the new CSV table.
+	 * @param delimiter The delimiter for the values in the table.
+	 * @param useQuotes Whether or not to enclose strings in quotes in the output 
+	 *	file.
+	 */
+	public CSVTableWriter( File output, Collection<String> keys, String delimiter,
+	                       boolean useQuotes ) throws IOException {
+		this( new FileWriter( output ), keys.toArray( new String[ keys.size( )]), 
+		      delimiter, useQuotes );
+	}
+
+	/**
 	 * Creates a new Identification writer with the default headers.
 	 * 
 	 * @param output The Writer to write output to.
@@ -159,6 +188,8 @@ public class CSVTableWriter {
 	 * @param output The Writer to write output to.
 	 * @param keys The keys for the new CSV table.
 	 * @param delimiter The delimiter for the values in the table.
+	 * @param useQuotes Whether or not to enclose strings in quotes in the output 
+	 *	file.
 	 */
 	public CSVTableWriter( Writer output, Collection<String> keys, String delimiter,
 	                       boolean useQuotes ) throws IOException {
@@ -172,6 +203,8 @@ public class CSVTableWriter {
 	 * @param output The Writer to write output to.
 	 * @param keys The keys for the new CSV table.
 	 * @param delimiter The delimiter for the values in the table.
+	 * @param useQuotes Whether or not to enclose strings in quotes in the output 
+	 *	file.
 	 */
 	public CSVTableWriter( Writer output, String[] keys, String delimiter, 
 	                       boolean useQuotes ) throws IOException {
