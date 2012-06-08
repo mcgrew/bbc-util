@@ -68,6 +68,19 @@ public class StringAttributes extends BasicAttributes<String> {
 	 * Gets an attribute for this object.
 	 * 
 	 * @param attribute The attribute to retrieve.
+	 * @param defaultValue The value to return if this attribute is not set.
+	 * @return The value of the requested attribute, or null if it does not exist.
+	 */
+	public boolean getBooleanAttribute( String attribute, boolean defaultValue ) {
+		return this.hasAttribute( attribute ) ? 
+			Boolean.parseBoolean( this.attributes.get( attribute )) : defaultValue;
+	}
+
+
+	/**
+	 * Gets an attribute for this object.
+	 * 
+	 * @param attribute The attribute to retrieve.
 	 * @return The value of the requested attribute, or null if it does not exist.
 	 */
 	public int getIntAttribute( String attribute ) {
@@ -78,10 +91,34 @@ public class StringAttributes extends BasicAttributes<String> {
 	 * Gets an attribute for this object.
 	 * 
 	 * @param attribute The attribute to retrieve.
+	 * @param defaultValue The value to return if this attribute is not set.
+	 * @return The value of the requested attribute, or null if it does not exist.
+	 */
+	public int getIntAttribute( String attribute, int defaultValue ) {
+		return this.hasAttribute( attribute ) ? 
+			Integer.parseInt( this.attributes.get( attribute )) : defaultValue;
+	}
+
+	/**
+	 * Gets an attribute for this object.
+	 * 
+	 * @param attribute The attribute to retrieve.
 	 * @return The value of the requested attribute, or null if it does not exist.
 	 */
 	public double getDoubleAttribute( String attribute ) {
 		return Double.parseDouble( this.attributes.get( attribute ));
+	}
+
+	/**
+	 * Gets an attribute for this object.
+	 * 
+	 * @param attribute The attribute to retrieve.
+	 * @param defaultValue The value to return if this attribute is not set.
+	 * @return The value of the requested attribute, or null if it does not exist.
+	 */
+	public double getDoubleAttribute( String attribute, double defaultValue ) {
+		return this.hasAttribute( attribute ) ? 
+			Double.parseDouble( this.attributes.get( attribute )) : defaultValue;
 	}
 
 	/**

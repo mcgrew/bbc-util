@@ -45,6 +45,15 @@ public interface Attributes<T> {
 	public T getAttribute( String attribute );
 
 	/**
+	 * Gets an attribute for this object.
+	 * 
+	 * @param attribute The attribute to retrieve.
+	 * @param defaultValue A value to be returned if the attribute is not set.
+	 * @return The value of the requested attribute, or null if it does not exist.
+	 */
+	public T getAttribute( String attribute, T defaultValue );
+
+	/**
 	 * Gets the attributes of this object as a Map.
 	 * 
 	 * @return A Map containing the attributes of this object.

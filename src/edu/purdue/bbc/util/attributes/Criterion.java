@@ -165,11 +165,11 @@ public class Criterion<T extends Attributes>
 			case LESS:
 				conditionString = " < "; break;
 			case NOT_EQUAL:
-				conditionString = " ≠ "; break;
+				conditionString = " != "; break;
 			case GREATER | EQUAL:
-				conditionString = " ≥ "; break;
+				conditionString = " >= "; break;
 			case LESS | EQUAL:
-				conditionString = " ≤ "; break;
+				conditionString = " <= "; break;
 			default:
 				conditionString = " = "; 
 		}
