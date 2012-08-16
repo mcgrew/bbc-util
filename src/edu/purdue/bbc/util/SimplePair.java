@@ -160,13 +160,11 @@ public class SimplePair<T> implements Pair<T>, Collection<T> {
 	 *	specified collection.
 	 */
 	public boolean containsAll ( Collection <?> c ) {
-		boolean returnValue = true;
 		for ( Object item : c ) {
-			returnValue = returnValue && this.contains( item );
-			if ( !returnValue )
-				break;
+			if ( !this.contains( item ))
+        return false;
 		}
-		return returnValue;
+    return true;
 	}
 
 	/**

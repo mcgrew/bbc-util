@@ -121,4 +121,14 @@ public class ProcessUtils {
 		}
 		return pid;
 	}
+
+  /**
+   * Returns the current number of running threads in the application.
+   * 
+   * @return The number of threads.
+   */
+  public static int getThreadCount( ) {
+    return 
+      ManagementFactory.getThreadMXBean().getThreadCount();        
+  }
 }
