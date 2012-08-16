@@ -88,8 +88,7 @@ public class AttributesFilterList<T extends Attributes>
    * to OR, Attributes which pass through ANY of the contained filters will
    * be returned.
    * 
-   * @param 
-   * @return 
+   * @param operation the operation to use for this filter.
    */
   public void setOperation( int operation ) {
   	this.operation = operation;

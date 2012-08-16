@@ -33,11 +33,22 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+/**
+ * This class will create a background thread which will process update events
+ * in the background at minimum priority by default.
+ */
 public class UpdateDaemon extends Thread {
-  private Collection<DaemonListener> listeners;
-  private DaemonRunnable runnable;
+  protected Collection<DaemonListener> listeners;
+  protected DaemonRunnable runnable;
 
-  private UpdateDaemon( DaemonRunnable runnable ){ 
+  /**
+   * Creates a new UpdateDaemon this method is protected, so create a new
+   * daemon with the create() method.
+   * 
+   * @param runnable The Runnable which this thread will run. This is created
+   *   automatically by the create() method.
+   */
+  protected UpdateDaemon( DaemonRunnable runnable ){ 
     super( runnable );
     this.runnable = runnable;
     this.runnable.setLock( this );
@@ -47,29 +58,59 @@ public class UpdateDaemon extends Thread {
     this.runnable.setListeners( this.listeners );
   }
 
+  /**
+   * Creates a new UpdateDaemon and returns it. This instance should then be 
+   * started by calling it's start() method.
+   * 
+   * @param interval The interval to check for new updates, in milliseconds.
+   * @return a new UpdateDaemon.
+   */
   public static UpdateDaemon create( long interval ) {
     DaemonRunnable runnable = new DaemonRunnable( interval );
     return new UpdateDaemon( runnable );
   }
 
+  /**
+   * Calling this method with an object implementing DaemonListener will cause
+   * it's daemonUpdate method to be called at the next interval.
+   * 
+   * @param listener The object to be processed.
+   */
   public synchronized void update( DaemonListener listener ) {
     if ( !listeners.contains( listener )) 
       listeners.add( listener );
   }
 
-  public synchronized void cancelUpdate( DaemonListener listener ) {
-    listeners.remove( listener );
+  /**
+   * Attemps to cancel the next update. If the event has not yet fired, the
+   * update will be cancelled. There is no guarantee that cancellation will
+   * succeed.
+   * 
+   * @param The listener to cancel the update for.
+   * @return true if the cancellation was successful. False if the update has
+   *   already started and thus unable to be cancelled.
+   */
+  public synchronized boolean cancelUpdate( DaemonListener listener ) {
+    return listeners.remove( listener );
   }
 
+  /**
+   * Kills the thread. At the next update, the thread will not execute and
+   * instead exit.
+   */
   public void kill( ) {
     this.runnable.setKillBit( true );
   }
 
-  private static class DaemonRunnable implements Runnable {
-    private Object lock;
-    private boolean kill = false;
-    private long interval;
-    private Collection<DaemonListener> listeners;
+  /**
+   * Runnable class for the Thread. This is created automatically by
+   * UpdateDaemon's create() method.
+   */
+  protected static class DaemonRunnable implements Runnable {
+    protected Object lock;
+    protected boolean kill = false;
+    protected long interval;
+    protected Collection<DaemonListener> listeners;
 
     public DaemonRunnable( long interval ) {
       this.interval = interval;

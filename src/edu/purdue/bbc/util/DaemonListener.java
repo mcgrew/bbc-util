@@ -29,8 +29,16 @@ License: X11 license.
 
 package edu.purdue.bbc.util;
 
+/**
+ * An interface for listening to calls from UpdateDaemon
+ */
 public interface DaemonListener {
 
+ /**
+  * This method will be called by UpdateDaemon on a specified interval when
+  * the object is passed to UpdateDaemon's update() method
+  * @see UpdateDaemon#update(DaemonListener)
+  */
  public void daemonUpdate( ); 
 
 }
