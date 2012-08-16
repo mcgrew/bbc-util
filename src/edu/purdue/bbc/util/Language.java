@@ -4,26 +4,26 @@ Copyright: 2010 Purdue University
 
 This file is distributed under the following terms (MIT/X11 License):
 
-	Permission is hereby granted, free of charge, to any person
-	obtaining a copy of this file and associated documentation
-	files (the "Software"), to deal in the Software without
-	restriction, including without limitation the rights to use,
-	copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the
-	Software is furnished to do so, subject to the following
-	conditions:
+  Permission is hereby granted, free of charge, to any person
+  obtaining a copy of this file and associated documentation
+  files (the "Software"), to deal in the Software without
+  restriction, including without limitation the rights to use,
+  copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the
+  Software is furnished to do so, subject to the following
+  conditions:
 
-	The above copyright notice and this permission notice shall be
-	included in all copies or substantial portions of the Software.
+  The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.
 
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-	OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-	NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-	OTHER DEALINGS IN THE SOFTWARE.
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+  OTHER DEALINGS IN THE SOFTWARE.
 
 */
 
@@ -55,30 +55,30 @@ import org.apache.log4j.Logger;
  *
  * For example the file en_US.xml:
  * <pre>
- *	&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
- *	&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
- *	&lt;properties&gt;
- *		&lt;entry key="File"&gt;File&lt;/entry&gt;
- *		&lt;entry key="Help"&gt;Help&lt;/entry&gt;
- *		&lt;entry key="Open"&gt;Open&lt;/entry&gt;
- *		&lt;entry key="OK"&gt;OK&lt;/entry&gt;
- *		&lt;entry key="Cancel"&gt;Cancel&lt;/entry&gt;
- *		&lt;entry key="Save"&gt;Save&lt;/entry&gt;
- *	&lt;/properties&gt;
+ *  &lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+ *  &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+ *  &lt;properties&gt;
+ *  	&lt;entry key="File"&gt;File&lt;/entry&gt;
+ *  	&lt;entry key="Help"&gt;Help&lt;/entry&gt;
+ *  	&lt;entry key="Open"&gt;Open&lt;/entry&gt;
+ *  	&lt;entry key="OK"&gt;OK&lt;/entry&gt;
+ *  	&lt;entry key="Cancel"&gt;Cancel&lt;/entry&gt;
+ *  	&lt;entry key="Save"&gt;Save&lt;/entry&gt;
+ *  &lt;/properties&gt;
  * </pre>
  * 
  * Would perhaps be accompanied by a file called es.xml:
  * <pre>
- *	&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
- *	&lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
- *	&lt;properties&gt;
- *		&lt;entry key="File"&gt;Archivo&lt;/entry&gt;
- *		&lt;entry key="Help"&gt;Ayuda&lt;/entry&gt;
- *		&lt;entry key="Open"&gt;Abrir&lt;/entry&gt;
- *		&lt;entry key="OK"&gt;Confirmar&lt;/entry&gt;
- *		&lt;entry key="Cancel"&gt;Cancelar&lt;/entry&gt;
- *		&lt;entry key="Save"&gt;Guardar&lt;/entry&gt;
- *	&lt;/properties&gt;
+ *  &lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+ *  &lt;!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"&gt;
+ *  &lt;properties&gt;
+ *  	&lt;entry key="File"&gt;Archivo&lt;/entry&gt;
+ *  	&lt;entry key="Help"&gt;Ayuda&lt;/entry&gt;
+ *  	&lt;entry key="Open"&gt;Abrir&lt;/entry&gt;
+ *  	&lt;entry key="OK"&gt;Confirmar&lt;/entry&gt;
+ *  	&lt;entry key="Cancel"&gt;Cancelar&lt;/entry&gt;
+ *  	&lt;entry key="Save"&gt;Guardar&lt;/entry&gt;
+ *  &lt;/properties&gt;
  * </pre>
  * 
  * In this case the call get( "Open" ) would return "Open" if the locale is set 
@@ -89,152 +89,152 @@ import org.apache.log4j.Logger;
  * 
  */
 public class Language {
-	private Locale locale = Locale.getDefault( );
-	private Properties strings = new Properties( );
-	private String resourceLocation;
+  private Locale locale = Locale.getDefault( );
+  private Properties strings = new Properties( );
+  private String resourceLocation;
 
-	/**
-	 * Creates a new Language resource with a resourceLocation of
-	 * "/resources/i18n/" and the default Locale.
-	 */
-	public Language( ) {
-		this.resourceLocation = "/resources/i18n/";
-		// Detect the locale by checking the Settings. If that fails, use 
-		// the default locale.
-		Settings settings = Settings.getSettings( );
-		if ( settings == null || settings.getProperty( "locale" ) == null )
-			setLocale( Locale.getDefault( ));
-		else
-			setLocale( settings.getProperty( "locale" ));
-	}
+  /**
+   * Creates a new Language resource with a resourceLocation of
+   * "/resources/i18n/" and the default Locale.
+   */
+  public Language( ) {
+  	this.resourceLocation = "/resources/i18n/";
+  	// Detect the locale by checking the Settings. If that fails, use 
+  	// the default locale.
+  	Settings settings = Settings.getSettings( );
+  	if ( settings == null || settings.getProperty( "locale" ) == null )
+  		setLocale( Locale.getDefault( ));
+  	else
+  		setLocale( settings.getProperty( "locale" ));
+  }
 
-	/**
-	 * Creates a new Language resource with a resourceLocation of
-	 * "/resources/i18n/" and the specified Locale.
-	 *
-	 * @param locale The locale to use for translations.
-	 */
-	public Language( String locale ) {
-		this( locale, "/resources/i18n/" );
-	}
+  /**
+   * Creates a new Language resource with a resourceLocation of
+   * "/resources/i18n/" and the specified Locale.
+   *
+   * @param locale The locale to use for translations.
+   */
+  public Language( String locale ) {
+  	this( locale, "/resources/i18n/" );
+  }
 
-	/**
-	 * Creates a new Language resource with a resourceLocation of
-	 * "/resources/i18n/" and the specified Locale.
-	 *
-	 * @param locale The Locale to use for translations.
-	 */
-	public Language( Locale locale ) {
-		this( locale, "/resources/i18n/" );
-	}
+  /**
+   * Creates a new Language resource with a resourceLocation of
+   * "/resources/i18n/" and the specified Locale.
+   *
+   * @param locale The Locale to use for translations.
+   */
+  public Language( Locale locale ) {
+  	this( locale, "/resources/i18n/" );
+  }
 
-	/**
-	 * Creates a new Language resource with the given locale and
-	 * resource location.
-	 * 
-	 * @param locale The locale to use for translations.
-	 * @param resourceLocation The location of the language resource files.
-	 */
-	public Language( String locale, String resourceLocation ) {
-		setLocale( locale );
-		if ( resourceLocation.endsWith( "/" )) {
-			this.resourceLocation = resourceLocation;
-		} else {
-			this.resourceLocation = resourceLocation + "/";
-		}
-	}
+  /**
+   * Creates a new Language resource with the given locale and
+   * resource location.
+   * 
+   * @param locale The locale to use for translations.
+   * @param resourceLocation The location of the language resource files.
+   */
+  public Language( String locale, String resourceLocation ) {
+  	setLocale( locale );
+  	if ( resourceLocation.endsWith( "/" )) {
+  		this.resourceLocation = resourceLocation;
+  	} else {
+  		this.resourceLocation = resourceLocation + "/";
+  	}
+  }
 
-	/**
-	 * Creates a new Language resource with the given locale and
-	 * resource location.
-	 * 
-	 * @param locale The Locale to use for translations.
-	 * @param resourceLocation The location of the language resource files.
-	 */
-	public Language( Locale locale, String resourceLocation ) {
-		setLocale( locale );
-		if ( resourceLocation.endsWith( "/" )) {
-			this.resourceLocation = resourceLocation;
-		} else {
-			this.resourceLocation = resourceLocation + "/";
-		}
-	}
+  /**
+   * Creates a new Language resource with the given locale and
+   * resource location.
+   * 
+   * @param locale The Locale to use for translations.
+   * @param resourceLocation The location of the language resource files.
+   */
+  public Language( Locale locale, String resourceLocation ) {
+  	setLocale( locale );
+  	if ( resourceLocation.endsWith( "/" )) {
+  		this.resourceLocation = resourceLocation;
+  	} else {
+  		this.resourceLocation = resourceLocation + "/";
+  	}
+  }
 
-	/**
-	 * Sets the locale to the newly specified locale.
-	 * 
-	 * @param locale The new locale to use.
-	 */
-	public void setLocale( String locale ) {
-			String [] args = locale.split( "_", 2 );
-			if ( args.length == 1 )
-				setLocale( new Locale( args[0] ));
-			else
-				setLocale( new Locale( args[0], args[1] ));
-	}
+  /**
+   * Sets the locale to the newly specified locale.
+   * 
+   * @param locale The new locale to use.
+   */
+  public void setLocale( String locale ) {
+  		String [] args = locale.split( "_", 2 );
+  		if ( args.length == 1 )
+  			setLocale( new Locale( args[0] ));
+  		else
+  			setLocale( new Locale( args[0], args[1] ));
+  }
 
-	/**
-	 * Sets the locale to the newly specified Locale.
-	 * 
-	 * @param locale The new locale to use.
-	 */
-	public void setLocale( Locale locale ) {
-		this.locale = locale;
-		// try language + country first.
-		InputStream resource = getClass( ).getResourceAsStream( 
-			"/resources/i18n/" + locale.getLanguage( ) + "_" +locale.getCountry( ) + ".xml" );
-		if ( resource == null ) {
-			// try just language.
-			resource = getClass( ).getResourceAsStream( 
-				"/resources/i18n/" + locale.getLanguage( ) + ".xml" );
-		}
-		if ( resource /*still*/ == null ) {
-			Logger.getLogger( getClass( )).debug( 
-				get( "Unable to read language file for " ) + 
-				locale.toString( ) + ". " );
-		} else {
-			try {
-				strings.loadFromXML( resource ); 
-			} catch ( IOException e ) {
-				Logger.getLogger( getClass( )).debug( 
-					get( "Unable to read language file for " ) + 
-					locale.toString( ) + ". " );
-			}
-		}
-	}
+  /**
+   * Sets the locale to the newly specified Locale.
+   * 
+   * @param locale The new locale to use.
+   */
+  public void setLocale( Locale locale ) {
+  	this.locale = locale;
+  	// try language + country first.
+  	InputStream resource = getClass( ).getResourceAsStream( 
+  		"/resources/i18n/" + locale.getLanguage( ) + "_" +locale.getCountry( ) + ".xml" );
+  	if ( resource == null ) {
+  		// try just language.
+  		resource = getClass( ).getResourceAsStream( 
+  			"/resources/i18n/" + locale.getLanguage( ) + ".xml" );
+  	}
+  	if ( resource /*still*/ == null ) {
+  		Logger.getLogger( getClass( )).debug( 
+  			get( "Unable to read language file for " ) + 
+  			locale.toString( ) + ". " );
+  	} else {
+  		try {
+  			strings.loadFromXML( resource ); 
+  		} catch ( IOException e ) {
+  			Logger.getLogger( getClass( )).debug( 
+  				get( "Unable to read language file for " ) + 
+  				locale.toString( ) + ". " );
+  		}
+  	}
+  }
 
-	/**
-	 * Gets the currently used Locale for this language resource.
-	 * 
-	 * @return The current Locale.
-	 */
-	public Locale getLocale( ) {
-		return locale;
-	}
+  /**
+   * Gets the currently used Locale for this language resource.
+   * 
+   * @return The current Locale.
+   */
+  public Locale getLocale( ) {
+  	return locale;
+  }
 
-	/**
-	 * Returns the proper translation of the specified string according
-	 * to the current locale. If the string is not found in the language
-	 * file, a debug message is issued (log4j) and the passed in String
-	 * is returned.
-	 * 
-	 * @param s The string to be translated.
-	 * @return The translated string.
-	 */
-	public String get( String s ) {
-		if ( strings == null )
-			return s;
+  /**
+   * Returns the proper translation of the specified string according
+   * to the current locale. If the string is not found in the language
+   * file, a debug message is issued (log4j) and the passed in String
+   * is returned.
+   * 
+   * @param s The string to be translated.
+   * @return The translated string.
+   */
+  public String get( String s ) {
+  	if ( strings == null )
+  		return s;
 
-		String returnValue = strings.getProperty( s );
-		if ( returnValue != null ) {
-			return returnValue;
-		}
+  	String returnValue = strings.getProperty( s );
+  	if ( returnValue != null ) {
+  		return returnValue;
+  	}
 
-		if ( true )
-			Logger.getLogger( getClass( )).debug( 
-				String.format( "'%s' not in language file (%s)", 
-					s, ProcessUtils.getCallerDescription( )));
-		return s;
-	}
+  	if ( true )
+  		Logger.getLogger( getClass( )).debug( 
+  			String.format( "'%s' not in language file (%s)", 
+  				s, ProcessUtils.getCallerDescription( )));
+  	return s;
+  }
 }
 
