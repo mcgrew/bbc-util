@@ -29,8 +29,8 @@ License: X11 license.
 
 package edu.purdue.bbc.util;
 
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.LinkedList;
 
 /**
@@ -38,7 +38,7 @@ import java.util.LinkedList;
  * in the background at minimum priority by default.
  */
 public class UpdateDaemon extends Thread {
-  protected Collection<DaemonListener> listeners;
+  protected List<DaemonListener> listeners;
   protected DaemonRunnable runnable;
 
   /**
@@ -76,7 +76,7 @@ public class UpdateDaemon extends Thread {
    * 
    * @param listener The object to be processed.
    */
-  public synchronized void update( DaemonListener listener ) {
+  public void update( DaemonListener listener ) {
     if ( !listeners.contains( listener )) 
       listeners.add( listener );
   }
@@ -90,7 +90,7 @@ public class UpdateDaemon extends Thread {
    * @return true if the cancellation was successful. False if the update has
    *   already started and thus unable to be cancelled.
    */
-  public synchronized boolean cancelUpdate( DaemonListener listener ) {
+  public boolean cancelUpdate( DaemonListener listener ) {
     return listeners.remove( listener );
   }
 
@@ -110,13 +110,13 @@ public class UpdateDaemon extends Thread {
     protected Object lock;
     protected boolean kill = false;
     protected long interval;
-    protected Collection<DaemonListener> listeners;
+    protected List<DaemonListener> listeners;
 
     public DaemonRunnable( long interval ) {
       this.interval = interval;
     }
 
-    public void setListeners( Collection<DaemonListener> listeners ) {
+    public void setListeners( List<DaemonListener> listeners ) {
       this.listeners = listeners;
     }
 
@@ -137,12 +137,9 @@ public class UpdateDaemon extends Thread {
         }
         if ( this.kill )
           return;
-        synchronized( this.lock ) {
-          Iterator<DaemonListener> listenerIterator = listeners.iterator( );
-          while( listenerIterator.hasNext( )) {
-            listenerIterator.next( ).daemonUpdate( );
-            listenerIterator.remove( );
-          }
+        while( listeners.size( ) > 0) {
+          DaemonListener listener = listeners.remove( 0 );
+          listener.daemonUpdate( );
         }
       }
     }
