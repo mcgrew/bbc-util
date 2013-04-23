@@ -32,6 +32,7 @@ package edu.purdue.bbc.util;
 import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 /**
  * This class will create a background thread which will process update events
@@ -77,7 +78,7 @@ public class UpdateDaemon extends Thread {
    * @param listener The object to be processed.
    */
   public void update( DaemonListener listener ) {
-    if ( !listeners.contains( listener )) 
+    if ( listener != null && !listeners.contains( listener )) 
       listeners.add( listener );
   }
 
@@ -138,8 +139,10 @@ public class UpdateDaemon extends Thread {
         if ( this.kill )
           return;
         while( listeners.size( ) > 0) {
-          DaemonListener listener = listeners.remove( 0 );
-          listener.daemonUpdate( );
+          try {
+            DaemonListener listener = listeners.remove( 0 );
+            listener.daemonUpdate( );
+          } catch( NoSuchElementException e ) { }
         }
       }
     }

@@ -312,20 +312,7 @@ public class Statistics {
    * @return The median of those values.
    */
   public static double median( double [] values ) {
-  	int length = values.length;
-  	for ( double value : values ) {
-  		if ( Double.isNaN( value ))
-  			length--;
-  	}
-  	if ( length == 0 )
-  		return Double.NaN;
-  	double [] sorted = Arrays.copyOf( values, values.length );
-  	Arrays.sort( sorted );
-  	if (( length & 1 ) == 0 ) {
-  		return ( sorted[ length / 2 ] + sorted[ length / 2 + 1 ]) / 2;
-  	} else {
-  		return sorted[ length / 2 ];
-  	}
+    return percentile(values, 50);
   }
 
   /**
@@ -403,14 +390,11 @@ public class Statistics {
    * @return The minimum regular value.
    */
   public static double minRegular( double[] values ) {
-  	double [] sorted = Arrays.copyOf( values, values.length );
-  	Arrays.sort( sorted );
-  	double q1 = firstQuartile( sorted );
-  	for ( double d : sorted ) {
-  		if ( Double.compare( d, q1 ) >= 0 )
-  			return d;
-  	}
-  	return Double.NaN;
+    double[] sorted = sortDoubleArray(values);
+    double fq = percentile_(sorted, 25);
+    double tq = percentile_(sorted, 75);
+    double iqr = tq - fq;
+    return fq - 1.5 * iqr;
   }
 
   /**
@@ -421,14 +405,11 @@ public class Statistics {
    * @return The minimum regular value.
    */
   public static double maxRegular( double[] values ) {
-  	double [] sorted = Arrays.copyOf( values, values.length );
-  	Arrays.sort( sorted );
-  	double q3 = thirdQuartile( sorted );
-  	for ( int i = sorted.length; i >= 0; i-- ) {
-  		if ( Double.compare( sorted[ i ], q3 ) <= 0 )
-  			return sorted[ i ];
-  	}
-  	return Double.NaN;
+    double[] sorted = sortDoubleArray(values);
+    double fq = percentile_(sorted, 25);
+    double tq = percentile_(sorted, 75);
+    double iqr = tq - fq;
+    return tq + 1.5 * iqr;
   }
 
   /**
@@ -438,20 +419,7 @@ public class Statistics {
    * @return The first quartile data point.
    */
   public static double firstQuartile( double[] values ) {
-  	int length = values.length;
-  	for ( double value : values ) {
-  		if ( Double.isNaN( value ))
-  			length--;
-  	}
-  	if ( length == 0 )
-  		return Double.NaN;
-  	double [] sorted = Arrays.copyOf( values, values.length );
-  	Arrays.sort( sorted );
-  	int quartilePos = length / 4 + 1;
-  	if ( length % 4 == 0 )
-  		return ( sorted[ quartilePos - 1 ] + sorted[ quartilePos ]) / 2;
-  	else
-  		return sorted[ quartilePos ];
+    return percentile(values, 25);
   }
 
   /**
@@ -461,20 +429,7 @@ public class Statistics {
    * @return The third quartile data point.
    */
   public static double thirdQuartile( double[] values ) {
-  	int length = values.length;
-  	for ( double value : values ) {
-  		if ( Double.isNaN( value ))
-  			length--;
-  	}
-  	if ( length == 0 )
-  		return Double.NaN;
-  	double [] sorted = Arrays.copyOf( values, values.length );
-  	Arrays.sort( sorted );
-  	int quartilePos = length - length / 4 - 1;
-  	if ( length % 4 == 0 )
-  		return ( sorted[ quartilePos + 1 ] + sorted[ quartilePos ]) / 2;
-  	else
-  		return sorted[ quartilePos ];
+    return percentile(values, 75);
   }
 
   /**
@@ -501,19 +456,11 @@ public class Statistics {
    *	considered outliers.
    */
   public static Range regularRange( double[] values ) {
-  	double [] sorted = Arrays.copyOf( values, values.length );
-  	Arrays.sort( sorted );
-  	Range range = new Range( firstQuartile( sorted ), thirdQuartile( sorted ))
-  		.scale( 4.0 );
-  	double low = Double.NaN;
-  	double high = Double.NaN;
-  	for ( double d : sorted ) {
-  		if ( Double.isNaN( low ) && range.contains( d ))
-  			low = d;
-  		if ( Double.isNaN( high ) || range.contains( d ))
-  			high = d;
-  	}
-  	return new Range( low, high );
+    double[] sorted = sortDoubleArray(values);
+    double fq = percentile_(sorted, 25);
+    double tq = percentile_(sorted, 75);
+    double iqr = tq - fq;
+    return new Range(fq - 1.5 * iqr, tq + 1.5 * iqr);
   }
 
   /**
@@ -524,9 +471,71 @@ public class Statistics {
    * @return A range containing the 25th to 75th percentiles.
    */
   public static Range quartileRange( double[] values ) {
-  	return new Range( firstQuartile( values ), thirdQuartile( values ));
+    double[] sorted = sortDoubleArray(values);
+    double fq = percentile_(sorted, 25);
+    double tq = percentile_(sorted, 75);
+  	return new Range(fq, tq);
   }
 
+  /**
+   * Finds the percentile value for a given array.
+   *
+   * @param values An array to find the percentile value for
+   * @param percentile The percentile value to calculate
+   * @return The calculated value which would be the requested percentile of the
+   *   array.
+   */
+  public static double percentile(double[] values, double percentile) {
+    if (percentile < 1 || percentile > 99) {
+      return Double.NaN;
+    }
+    double[] sorted = sortDoubleArray(values);
+    if (sorted.length < 1) {
+      return Double.NaN;
+    }
+    return percentile_(sorted, percentile);
+  }
+
+  /**
+   * Sorts an array of doubles, removing any NaN values
+   *
+   * @param values The array of values to sort.
+   * @return a sorted version of the array.
+   */
+  private static double[] sortDoubleArray(double[] values) {
+    int length = values.length;
+    for (double d: values) {
+      if (Double.isNaN(d))
+        length--;
+    }
+    int index = 0;
+    double[] sorted = new double[length];
+    for (double d: values) {
+      if (!Double.isNaN(d))
+        sorted[index++] = d;
+    }
+    Arrays.sort(sorted);
+    return sorted;
+  }
+
+  /**
+   * Finds the percentile value for a given pre-sorted array
+   *
+   * @param sorted A pre-sorted array to find the percentile value for.
+   * @param percentile The percentile value to calculate.
+   * @return The calculated value which would be the requested percentile of the
+   *   array
+   */
+  private static double  percentile_(double[] sorted, double percentile) {
+    double index = (double)(sorted.length + 1) * (percentile / 100) - 1;
+    double ceil  = Math.ceil(index);
+    double floor = Math.floor(index);
+    if (ceil == floor) {
+      return sorted[(int)index];
+    }
+    return (ceil - index) * sorted[(int)floor] +
+           (index - floor) * sorted[(int)ceil];
+  }
 
 }
 

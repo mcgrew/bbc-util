@@ -29,10 +29,13 @@ This file is distributed under the following terms (MIT/X11 License):
 
 package edu.purdue.bbc.util;
 
+import java.io.File;
+import java.util.Collection;
 import java.util.Properties;
 import java.util.Locale;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
@@ -92,6 +95,8 @@ public class Language {
   private Locale locale = Locale.getDefault( );
   private Properties strings = new Properties( );
   private String resourceLocation;
+  private Collection<String> phrases;
+  private boolean storageEnabled = true;
 
   /**
    * Creates a new Language resource with a resourceLocation of
@@ -106,6 +111,7 @@ public class Language {
   		setLocale( Locale.getDefault( ));
   	else
   		setLocale( settings.getProperty( "locale" ));
+    this.phrases = new TreeSet( );
   }
 
   /**
@@ -141,6 +147,7 @@ public class Language {
   		this.resourceLocation = resourceLocation;
   	} else {
   		this.resourceLocation = resourceLocation + "/";
+    this.phrases = new TreeSet( );
   	}
   }
 
@@ -158,6 +165,45 @@ public class Language {
   	} else {
   		this.resourceLocation = resourceLocation + "/";
   	}
+  }
+
+  /**
+   * Initiates storage of phrases passed to get( ) so that they can be exported
+   * to a language file..
+   */
+  public void storePhrases( ) {
+    this.storePhrases( true );
+  }
+
+  /**
+   * Initiates or ceases storage of phrases passed to get( ) 
+   * 
+   * @param store Whether or not to store phrases for later export.
+   */
+  public void storePhrases( boolean store ) {
+    this.storageEnabled = store;
+  }
+
+  /**
+   * Returns an xml string containing the language file data.
+   * 
+   * @param file An optional file to save the data to. If null, the string will
+   *   be returned but not saved to a file.
+   * @return An xml string containing the language file data.
+   */
+  public String export( File file ) {
+    StringBuilder languageFile = new StringBuilder( );
+    languageFile.append( "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n" );
+    languageFile.append( "<!DOCTYPE properties SYSTEM \"http://java.sun.com/dtd/properties.dtd\">\n" );
+    languageFile.append( "<properties>\n" );
+    for ( String key : phrases ) {
+      languageFile.append( String.format( "<entry key=\"%s\">%s</entry>\n", 
+        key, key ));
+    }
+    
+    languageFile.append( "</properties>\n" );
+    return languageFile.toString( );
+
   }
 
   /**
