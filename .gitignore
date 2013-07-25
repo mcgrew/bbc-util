@@ -1,3 +1,6 @@
 bbc-util.jar
 *.class
 docs/api
+bbc-util*.jar
+.idea
+*.iml
