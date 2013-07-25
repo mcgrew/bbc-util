@@ -39,24 +39,23 @@ import java.util.NoSuchElementException;
  * in the background at minimum priority by default.
  */
 public class UpdateDaemon extends Thread {
+  protected Object lock;
+  protected boolean kill = false;
+  protected long interval;
   protected List<DaemonListener> listeners;
-  protected DaemonRunnable runnable;
+
 
   /**
    * Creates a new UpdateDaemon this method is protected, so create a new
    * daemon with the create() method.
    * 
-   * @param runnable The Runnable which this thread will run. This is created
-   *   automatically by the create() method.
+   * @param interval The time to wait between update attempts (in milliseconds)
    */
-  protected UpdateDaemon( DaemonRunnable runnable ){ 
-    super( runnable );
-    this.runnable = runnable;
-    this.runnable.setLock( this );
+  public UpdateDaemon( long interval ){
+    super( );
     this.setPriority( MIN_PRIORITY );
     this.setDaemon( true );
     this.listeners = new LinkedList( );
-    this.runnable.setListeners( this.listeners );
   }
 
   /**
@@ -66,9 +65,9 @@ public class UpdateDaemon extends Thread {
    * @param interval The interval to check for new updates, in milliseconds.
    * @return a new UpdateDaemon.
    */
+  @Deprecated
   public static UpdateDaemon create( long interval ) {
-    DaemonRunnable runnable = new DaemonRunnable( interval );
-    return new UpdateDaemon( runnable );
+    return new UpdateDaemon( interval );
   }
 
   /**
@@ -83,11 +82,11 @@ public class UpdateDaemon extends Thread {
   }
 
   /**
-   * Attemps to cancel the next update. If the event has not yet fired, the
+   * Attempts to cancel the next update. If the event has not yet fired, the
    * update will be cancelled. There is no guarantee that cancellation will
    * succeed.
    * 
-   * @param The listener to cancel the update for.
+   * @param listener The listener to cancel the update for.
    * @return true if the cancellation was successful. False if the update has
    *   already started and thus unable to be cancelled.
    */
@@ -100,49 +99,21 @@ public class UpdateDaemon extends Thread {
    * instead exit.
    */
   public void kill( ) {
-    this.runnable.setKillBit( true );
+    this.kill = true;
   }
 
-  /**
-   * Runnable class for the Thread. This is created automatically by
-   * UpdateDaemon's create() method.
-   */
-  protected static class DaemonRunnable implements Runnable {
-    protected Object lock;
-    protected boolean kill = false;
-    protected long interval;
-    protected List<DaemonListener> listeners;
-
-    public DaemonRunnable( long interval ) {
-      this.interval = interval;
-    }
-
-    public void setListeners( List<DaemonListener> listeners ) {
-      this.listeners = listeners;
-    }
-
-    public void setLock( Object lock ) {
-      this.lock = lock;
-    }
-
-    public void setKillBit( boolean kill ) {
-      this.kill = kill;
-    }
-
-    public void run( ) {
-      while( true ) {
+  public void run( ) {
+    while( true ) {
+      ProcessUtils.sleep( this.interval );
+      if ( this.kill )
+        return;
+      while( listeners.size( ) > 0) {
         try {
-          Thread.sleep( this.interval );
-        } catch ( InterruptedException e ) { 
-          continue;
-        }
-        if ( this.kill )
-          return;
-        while( listeners.size( ) > 0) {
-          try {
-            DaemonListener listener = listeners.remove( 0 );
-            listener.daemonUpdate( );
-          } catch( NoSuchElementException e ) { }
+          DaemonListener listener = listeners.remove( 0 );
+          listener.daemonUpdate( );
+        } catch( NoSuchElementException e ) {
+        } catch ( Exception e ) {
+          e.printStackTrace();
         }
       }
     }

@@ -128,7 +128,32 @@ public class ProcessUtils {
    * @return The number of threads.
    */
   public static int getThreadCount( ) {
-    return 
-      ManagementFactory.getThreadMXBean().getThreadCount();        
+    return ManagementFactory.getThreadMXBean().getThreadCount();
+  }
+
+  /**
+   * Convenience method that simply calls Thread.sleep() and catches any
+   * InterruptedException
+   *
+   * @see Thread#sleep(long)
+   * @param millis
+   */
+  public static void sleep( long millis ) {
+    try {
+      Thread.sleep( millis );
+    } catch (InterruptedException e) { }
+  }
+
+  /**
+   * Convenience method that simply calls Thread.sleep() and catches any
+   * InterruptedException.
+   *
+   * @see Thread#sleep(long,int)
+   * @param millis
+   */
+  public static void sleep( long millis, int nanos ) {
+    try {
+      Thread.sleep( millis, nanos );
+    } catch (InterruptedException e) { }
   }
 }
