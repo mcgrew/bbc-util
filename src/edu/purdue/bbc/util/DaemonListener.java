@@ -39,6 +39,6 @@ public interface DaemonListener {
   * the object is passed to UpdateDaemon's update() method
   * @see UpdateDaemon#update(DaemonListener)
   */
- public void daemonUpdate( ); 
+ public void update( ); 
 
 }

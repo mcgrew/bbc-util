@@ -110,7 +110,7 @@ public class UpdateDaemon extends Thread {
       while( listeners.size( ) > 0) {
         try {
           DaemonListener listener = listeners.remove( 0 );
-          listener.daemonUpdate( );
+          listener.update( );
         } catch( NoSuchElementException e ) {
         } catch ( Exception e ) {
           e.printStackTrace();
