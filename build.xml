@@ -10,6 +10,7 @@
 	<property name="lib_dir"    value="lib"                                />
 	<property name="class_dir"  value="${build_dir}/class"                 />
 	<property name="jar_file"   value="${jar_dir}/${ant.project.name}.jar" />
+	<property name="src_jar"    value="${jar_dir}/${ant.project.name}-src.jar" />
 
 	<path id="build_classpath">
 		<fileset dir="${lib_dir}">
@@ -37,6 +38,20 @@
 				<path refid="build_classpath"/>
 			</classpath>
 		</javac>
+	</target>
+
+	<!-- ============ TARGET: SRCJAR ====================== -->
+	<target name="srcjar">
+		<mkdir dir="${jar_dir}"/>
+		<jar destfile="${src_jar}" basedir="${src_dir}">
+			<manifest>
+				<attribute name="Manifest-Version" value="1.0"                  />
+				<attribute name="Created-By"       value="${author}"            />
+				<attribute name="Version"          value="${version}"           />
+				<attribute name="Vendor"           value="${vendor}"            />
+				<attribute name="Class-Path"       value="${manifest_classpath}"/> 
+			</manifest>
+		</jar>
 	</target>
 
 	<!-- ============ TARGET: JAR ====================== -->
